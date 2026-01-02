@@ -58,7 +58,7 @@ textarea{min-height:80px;}
 
 <!-- MUSIC -->
 <audio id="music" loop>
-  <source src="https://raw.githubusercontent.com/hoanganh2025/thiep-cuoi/e8665d00c4d5d1e4676de5dc1f8b48d65b14e641/i-do.mp3" type="audio/mpeg">
+  <source src="https://github.com/hoanganh2025/thiep-cuoi/raw/e8665d00c4d5d1e4676de5dc1f8b48d65b14e641/i-do.mp3" type="audio/mpeg">
 </audio>
 
 <!-- MAIN CONTENT -->
@@ -158,48 +158,140 @@ textarea{min-height:80px;}
 </div>
 
 <script>
-// RSVP
-const rsvpCard=document.getElementById("rsvpCard"), rsvpStatus=document.getElementById("rsvpStatus"), prayNote=document.getElementById("prayNote"), rsvpName=document.getElementById("rsvpName"), rsvpListEl=document.getElementById("rsvpList"), yesCountEl=document.getElementById("yesCount"), noCountEl=document.getElementById("noCount");
+// ------------------- RSVP -------------------
+const rsvpCard=document.getElementById("rsvpCard"),
+      rsvpStatus=document.getElementById("rsvpStatus"),
+      prayNote=document.getElementById("prayNote"),
+      rsvpName=document.getElementById("rsvpName"),
+      rsvpListEl=document.getElementById("rsvpList"),
+      yesCountEl=document.getElementById("yesCount"),
+      noCountEl=document.getElementById("noCount");
 let rsvpData=JSON.parse(localStorage.getItem("rsvpData")||"[]");
-function renderRSVP(){rsvpListEl.innerHTML=""; let yes=0,no=0; rsvpData.forEach(r=>{const div=document.createElement("div");div.style.borderBottom="1px dashed #ccc"; div.style.padding="6px 0"; div.innerHTML=`<b>${r.name}</b> – ${r.status==="yes"?"✅ Tham dự":"❌ Không tham dự"}`; rsvpListEl.appendChild(div); r.status==="yes"?yes++:no++;}); yesCountEl.innerText=yes; noCountEl.innerText=no;}
-function changeRSVPStyle(){if(rsvpStatus.value==="no"){rsvpCard.classList.add("rsvp-no");prayNote.style.display="block";}else{rsvpCard.classList.remove("rsvp-no");prayNote.style.display="none";}}
-function showPopup(msg,color="#3c6e9b"){const popup=document.getElementById("rsvpPopup");popup.innerText=msg; popup.style.background=color; popup.style.display="block";setTimeout(()=>{popup.style.opacity=1;},10); setTimeout(()=>{popup.style.opacity=0;setTimeout(()=>popup.style.display="none",300);},2000);}
-function sendRSVP(e){e.preventDefault(); const status=rsvpStatus.value; rsvpData.unshift({name:rsvpName.value,status:status}); localStorage.setItem("rsvpData",JSON.stringify(rsvpData)); renderRSVP(); e.target.reset(); changeRSVPStyle(); if(status==="yes"){showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");} else{showPopup("❌ Bạn không tham dự","#888"); rsvpCard.style.transition="transform 0.3s"; rsvpCard.style.transform="translateY(-10px)"; setTimeout(()=>{rsvpCard.style.transform="translateY(10px)";},150); setTimeout(()=>{rsvpCard.style.transform="translateY(0)";},300);}}
+
+function renderRSVP(){
+  rsvpListEl.innerHTML="";
+  let yes=0,no=0;
+  rsvpData.forEach(r=>{
+    const div=document.createElement("div");
+    div.style.borderBottom="1px dashed #ccc"; div.style.padding="6px 0";
+    div.innerHTML=`<b>${r.name}</b> – ${r.status==="yes"?"✅ Tham dự":"❌ Không tham dự"}`;
+    rsvpListEl.appendChild(div);
+    r.status==="yes"?yes++:no++;
+  });
+  yesCountEl.innerText=yes; noCountEl.innerText=no;
+}
+
+function changeRSVPStyle(){
+  if(rsvpStatus.value==="no"){rsvpCard.classList.add("rsvp-no");prayNote.style.display="block";}
+  else{rsvpCard.classList.remove("rsvp-no");prayNote.style.display="none";}
+}
+
+function showPopup(msg,color="#3c6e9b"){
+  const popup=document.getElementById("rsvpPopup");
+  popup.innerText=msg; popup.style.background=color;
+  popup.style.display="block";setTimeout(()=>{popup.style.opacity=1;},10);
+  setTimeout(()=>{popup.style.opacity=0;setTimeout(()=>popup.style.display="none",300);},2000);
+}
+
+function sendRSVP(e){
+  e.preventDefault();
+  const status=rsvpStatus.value;
+  rsvpData.unshift({name:rsvpName.value,status:status});
+  localStorage.setItem("rsvpData",JSON.stringify(rsvpData));
+  renderRSVP();
+  e.target.reset();
+  changeRSVPStyle();
+  if(status==="yes"){showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");}
+  else{showPopup("❌ Bạn không tham dự","#888");
+       rsvpCard.style.transition="transform 0.3s";
+       rsvpCard.style.transform="translateY(-10px)";
+       setTimeout(()=>{rsvpCard.style.transform="translateY(10px)";},150);
+       setTimeout(()=>{rsvpCard.style.transform="translateY(0)";},300);}
+}
 renderRSVP();
 
-// OPEN SCREEN
-const openScreen=document.getElementById("openScreen"), intro=document.getElementById("intro"), introImg=document.getElementById("introImg"), introText=document.getElementById("introText"), main=document.getElementById("main"), music=document.getElementById("music"), story=[{img:"images/love1.jpg",text:"Từ lần gặp gỡ đầu tiên…"},{img:"images/love2.jpg",text:"Hai trái tim chung nhịp đập…"},{img:"images/love3.jpg",text:"Và hôm nay…"},{img:"images/love4.jpg",text:"Chúng con nên duyên vợ chồng 💍"}];
-function openInvite() {
-  openScreen.style.opacity = "0";
-  setTimeout(() => {
-    openScreen.style.display = "none";
-    intro.style.display = "flex";
-    // Tự động bật nhạc luôn
-    music.play().catch(() => {}); 
-    playStory(0);
-  }, 600);
-}
-function playStory(i){if(i>=story.length){intro.style.display="none"; main.style.display="block"; music.play().catch(()=>{}); return;} introImg.src=story[i].img; introText.innerText=story[i].text; setTimeout(()=>playStory(i+1),3000);}
-function toggleQR(){document.getElementById("qrBox").style.display=document.getElementById("qrBox").style.display==="none"?"block":"none";}
+// ------------------- OPEN SCREEN + INTRO -------------------
+const openScreen=document.getElementById("openScreen"),
+      intro=document.getElementById("intro"),
+      introImg=document.getElementById("introImg"),
+      introText=document.getElementById("introText"),
+      main=document.getElementById("main"),
+      music=document.getElementById("music");
 
-// COUNTDOWN
+const story=[
+  {img:"images/love1.jpg",text:"Từ lần gặp gỡ đầu tiên…"},
+  {img:"images/love2.jpg",text:"Hai trái tim chung nhịp đập…"},
+  {img:"images/love3.jpg",text:"Và hôm nay…"},
+  {img:"images/love4.jpg",text:"Chúng con nên duyên vợ chồng 💍"}
+];
+
+function openInvite(){
+  openScreen.style.opacity="0";
+  setTimeout(()=>{
+    openScreen.style.display="none";
+    intro.style.display="flex";
+    music.play().catch(()=>{}); // bật nhạc luôn
+    playStory(0);
+  },600);
+}
+
+function playStory(i){
+  if(i>=story.length){intro.style.display="none"; main.style.display="block"; return;}
+  introImg.src=story[i].img;
+  introText.innerText=story[i].text;
+  setTimeout(()=>playStory(i+1),3000);
+}
+
+// ------------------- COUNTDOWN -------------------
 const countdown=document.getElementById("countdown");
 const weddingTime=new Date("2026-02-14T17:30:00").getTime();
-setInterval(()=>{const d=weddingTime-Date.now(); if(d<=0){countdown.innerHTML="🎉 Lễ cưới đã bắt đầu"; return;} const days=Math.floor(d/86400000), h=Math.floor(d%86400000/3600000), m=Math.floor(d%3600000/60000), s=Math.floor(d%60000/1000); countdown.innerHTML=`⏳ Còn ${days} ngày ${h} giờ ${m} phút ${s} giây`;},1000);
+setInterval(()=>{
+  const d=weddingTime-Date.now();
+  if(d<=0){countdown.innerHTML="🎉 Lễ cưới đã bắt đầu"; return;}
+  const days=Math.floor(d/86400000),
+        h=Math.floor(d%86400000/3600000),
+        m=Math.floor(d%3600000/60000),
+        s=Math.floor(d%60000/1000);
+  countdown.innerHTML=`⏳ Còn ${days} ngày ${h} giờ ${m} phút ${s} giây`;
+},1000);
 
-// WISHES
-const wishList=document.getElementById("wishList"), wishName=document.getElementById("wishName"), wishText=document.getElementById("wishText");
-function sendWish(e){e.preventDefault(); const div=document.createElement("div"); div.innerHTML=`<b>${wishName.value}</b>: ${wishText.value}`; wishList.prepend(div); e.target.reset();}
+// ------------------- WISHES -------------------
+const wishList=document.getElementById("wishList");
+function sendWish(e){e.preventDefault();
+  const div=document.createElement("div");
+  div.innerHTML=`<b>${wishName.value}</b>: ${wishText.value}`;
+  wishList.prepend(div);
+  e.target.reset();
+}
 
-// ALBUM LIGHTBOX
-let current=0; const slides=document.querySelectorAll(".slide"); setInterval(()=>{slides[current].classList.remove("active"); current=(current+1)%slides.length; slides[current].classList.add("active");},3000);
-const lightbox=document.getElementById("lightbox"), lightboxImg=document.getElementById("lightboxImg");
+// ------------------- ALBUM -------------------
+let current=0; 
+const slides=document.querySelectorAll(".slide");
+setInterval(()=>{
+  slides[current].classList.remove("active");
+  current=(current+1)%slides.length;
+  slides[current].classList.add("active");
+},3000);
+
+const lightbox=document.getElementById("lightbox"),
+      lightboxImg=document.getElementById("lightboxImg");
 function openLightbox(src){lightboxImg.src=src; lightbox.style.display="flex";}
 function closeLightbox(){lightbox.style.display="none";}
 
-// FLOWERS
+// ------------------- QR -------------------
+function toggleQR(){document.getElementById("qrBox").style.display=document.getElementById("qrBox").style.display==="none"?"block":"none";}
+
+// ------------------- FLOWERS -------------------
 const flowers=["🌸","💮","🌺"];
-setInterval(()=>{const f=document.createElement("div"); f.className="flower"; f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)]; f.style.left=Math.random()*100+"vw"; f.style.animationDuration=6+Math.random()*6+"s"; document.body.appendChild(f); setTimeout(()=>f.remove(),12000);},500);
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="flower";
+  f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),12000);
+},500);
 </script>
 </body>
 </html>
