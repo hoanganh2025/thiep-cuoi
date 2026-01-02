@@ -282,5 +282,23 @@ const lightbox=document.getElementById("lightbox"),
 function openLightbox(src){lightboxImg.src=src; lightbox.style.display="flex"; lightbox.style.opacity=1;}
 function closeLightbox(){lightbox.style.opacity=0; setTimeout(()=>{lightbox.style.display="none"},500);}
 
-// ------------------- QR -------------------
-function toggleQR(){document.getElementById("qr
+  // ------------------- QR -------------------
+function toggleQR(){
+  const qrBox = document.getElementById("qrBox");
+  qrBox.style.display = qrBox.style.display==="none" ? "block" : "none";
+}
+
+// ------------------- FLOWERS -------------------
+const flowers=["🌸","💮","🌺"];
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="flower";
+  f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.animationDuration=6+Math.random()*6+"s";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),12000);
+},500);
+</script>
+</body>
+</html>
