@@ -157,11 +157,6 @@ textarea{min-height:80px;}
   <p style="opacity:.8">👆 Chạm để mở thiệp</p>
 </div>
 
-<!-- INTRO -->
-<div id="intro" class="intro">
-  <img id="introImg">
-  <div id="introText"></div>
-</div>
 
 <!-- MUSIC -->
 <audio id="music" loop>
@@ -373,6 +368,24 @@ function playStory(i){
     },600);
     return;
   }
+
+  introImg.style.opacity = 0;
+  introImg.style.transform = "scale(1.05)";
+  introText.style.opacity = 0;
+
+  setTimeout(()=>{
+    introImg.src = story[i].img;
+    introText.innerText = story[i].text;
+
+    introImg.style.opacity = 1;
+    introImg.style.transform = "scale(1)";
+    introText.style.opacity = 1;
+  },200);
+
+  setTimeout(()=>{
+    playStory(i + 1);
+  },3500);
+}
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
 const weddingTime=new Date("2026-02-14T17:30:00+07:00").getTime();
