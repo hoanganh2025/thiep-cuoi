@@ -72,16 +72,17 @@ textarea{min-height:80px;}
 <!-- RSVP Popup -->
 <div id="rsvpPopup">Cảm ơn bạn!</div>
 
-<!-- OPEN SCREEN --><div id="openScreen" onclick="openInvite()">
+<!-- OPEN SCREEN -->
+<div id="openScreen" onclick="openInvite()">
   <div style="font-size:42px">✝️</div>
   <h2>Thiệp Mời Lễ Hôn Phối</h2>
   <h1>Hoàng Anh & Phạm Nguyệt</h1>
-  <p style="opacity:.8;margin-top:15px">👆 Chạm để mở thiệp</p>
+  <p style="opacity:.8">👆 Chạm để mở thiệp</p>
 </div>
 
 <!-- INTRO -->
 <div id="intro" class="intro">
-  <img id="introImg" alt="Intro Image">
+  <img id="introImg">
   <div id="introText"></div>
 </div>
 
@@ -246,13 +247,6 @@ function sendRSVP(e){
   e.target.reset();
   changeRSVPStyle();
   if(status==="yes"){showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");}
-  else{showPopup("❌ Bạn không tham dự","#888");
-       rsvpCard.style.transition="transform 0.3s";
-       rsvpCard.style.transform="translateY(-10px)";
-       setTimeout(()=>{rsvpCard.style.transform="translateY(10px)";},150);
-       setTimeout(()=>{rsvpCard.style.transform="translateY(0)";},300);}
-}
-renderRSVP();
 
 // ------------------- OPEN SCREEN + INTRO -------------------
 const openScreen=document.getElementById("openScreen"),
@@ -270,15 +264,13 @@ const story=[
 ];
 
 function openInvite(){
-  const music = document.getElementById("music");
-
   music.volume = 0.6;
   music.play().catch(()=>{});
 
   openScreen.style.opacity = "0";
   setTimeout(()=>{
     openScreen.style.display = "none";
-    intro.style.display = "flex";
+    intro.classList.add("show");
     playStory(0);
   },600);
 }
