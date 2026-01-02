@@ -373,27 +373,6 @@ function playStory(i){
     },600);
     return;
   }
-
-  introImg.style.opacity = 0;
-  introText.style.opacity = 0;
-
-  setTimeout(()=>{
-    introImg.src = story[i].img;
-    introText.innerText = story[i].text;
-    introImg.style.opacity = 1;
-    introText.style.opacity = 1;
-  },300);
-
-  setTimeout(()=>{
-    playStory(i + 1);
-  }, 3500);
-}
-
-  // CHUYỂN ẢNH SAU 3 GIÂY
-  setTimeout(()=>{
-    playStory(i + 1);
-  }, 3000);
-}
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
 const weddingTime=new Date("2026-02-14T17:30:00+07:00").getTime();
