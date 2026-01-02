@@ -36,9 +36,38 @@ textarea{min-height:80px;}
 .flower{position:fixed;top:-40px;pointer-events:none;animation:fall linear forwards;}
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
 #rsvpPopup{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#3c6e9b;color:white;padding:15px 25px;border-radius:12px;font-weight:bold;display:none;z-index:1000;box-shadow:0 4px 15px rgba(0,0,0,.3);opacity:0;transition:0.3s;}
+/* MUSIC BUTTON */
+#musicBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#9b3c3c;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  cursor:pointer;
+  z-index:1001;
+  box-shadow:0 6px 15px rgba(0,0,0,.3);
+}
+
+/* FLOWER (nhẹ hơn) */
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(180deg);
+    opacity:0;
+  }
+}
+
 </style>
 </head>
 <body>
+<!-- MUSIC CONTROL -->
+<div id="musicBtn" onclick="toggleMusic()">🔇</div>
 
 <!-- RSVP Popup -->
 <div id="rsvpPopup">Cảm ơn bạn!</div>
@@ -158,6 +187,22 @@ textarea{min-height:80px;}
 </div>
 
 <script>
+  let musicStarted = false;
+
+function toggleMusic(){
+  if(!musicStarted){
+    music.play();
+    musicStarted = true;
+    musicBtn.innerText = "🔊";
+  }else if(music.paused){
+    music.play();
+    musicBtn.innerText = "🔊";
+  }else{
+    music.pause();
+    musicBtn.innerText = "🔇";
+  }
+}
+
 // ------------------- RSVP -------------------
 const rsvpCard=document.getElementById("rsvpCard"),
       rsvpStatus=document.getElementById("rsvpStatus"),
@@ -230,7 +275,6 @@ function openInvite(){
   setTimeout(()=>{
     openScreen.style.display="none";
     intro.classList.add("show");
-    music.play().catch(()=>{});
     playStory(0);
   },600);
 }
@@ -290,15 +334,18 @@ function toggleQR(){
 
 // ------------------- FLOWERS -------------------
 const flowers=["🌸","💮","🌺"];
+
 setInterval(()=>{
   const f=document.createElement("div");
   f.className="flower";
   f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
   f.style.left=Math.random()*100+"vw";
-  f.style.animationDuration=6+Math.random()*6+"s";
+  f.style.fontSize=16+Math.random()*12+"px";
+  f.style.animationDuration=8+Math.random()*6+"s";
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),12000);
-},500);
+  setTimeout(()=>f.remove(),15000);
+},1000);
+
 </script>
 </body>
 </html>
