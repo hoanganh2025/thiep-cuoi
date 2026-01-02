@@ -62,10 +62,88 @@ textarea{min-height:80px;}
     opacity:0;
   }
 }
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:20px;
+}
+.album-grid img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:14px;
+  cursor:pointer;
+  transition:transform .4s ease, box-shadow .4s ease;
+}
+.album-grid img:hover{
+  transform:scale(1.08);
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
 
+@media(max-width:600px){
+  .album-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}/* ===== LIGHTBOX PRO ===== */
+#lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  backdrop-filter:blur(6px);
+  justify-content:center;
+  align-items:center;
+  z-index:3000;
+}
+#lightbox img{
+  max-width:92%;
+  max-height:92%;
+  border-radius:20px;
+}
+.lb-close,.lb-prev,.lb-next{
+  position:absolute;
+  color:white;
+  font-size:32px;
+  cursor:pointer;
+  padding:10px;
+}
+.lb-close{top:20px;right:25px}
+.lb-prev{left:15px}
+.lb-next{right:15px}
+
+/* ===== ALBUM GRID ===== */
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.album-grid img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:16px;
+  cursor:pointer;
+  transition:.4s;
+}
+.album-grid img:hover{
+  transform:scale(1.05);
+}
 </style>
 </head>
 <body>
+  <!-- LIGHTBOX PRO -->
+<div id="lightbox">
+  <span class="lb-close" onclick="closeLightbox()">✕</span>
+  <span class="lb-prev" onclick="prevImg()">❮</span>
+  <img id="lightboxImg">
+  <span class="lb-next" onclick="nextImg()">❯</span>
+</div>
+  <!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg">
+</div>
+  
 <!-- MUSIC CONTROL -->
 <div id="musicBtn" onclick="toggleMusic()">🔇</div>
 
@@ -123,8 +201,7 @@ textarea{min-height:80px;}
   <img src="album5.jpg" onclick="openLightbox(this.src)">
   <img src="album6.jpg" onclick="openLightbox(this.src)">
 </div>
-  #
-  
+
 <!-- LỄ -->
 <h2>✝️ Lễ Thành Hôn</h2>
 <div class="card">
@@ -359,31 +436,7 @@ function sendWish(e){e.preventDefault();
   e.target.reset();
 }
 
-// ------------------- ALBUM -------------------
-.album-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:20px;
-}
-.album-grid img{
-  width:100%;
-  height:120px;
-  object-fit:cover;
-  border-radius:12px;
-  cursor:pointer;
-  transition:transform .3s ease, box-shadow .3s ease;
-}
-.album-grid img:hover{
-  transform:scale(1.05);
-  box-shadow:0 8px 20px rgba(0,0,0,.25);
-}
 
-@media(max-width:600px){
-  .album-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
 
   // ------------------- QR -------------------
 function toggleQR(){
@@ -404,7 +457,58 @@ setInterval(()=>{
   document.body.appendChild(f);
   setTimeout(()=>f.remove(),15000);
 },1000);
+// ------------------- LIGHTBOX -------------------
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
 
+function openLightbox(src){
+  lightboxImg.src = src;
+  lightbox.style.display = "flex";
+}
+
+function closeLightbox(){
+  lightbox.style.display = "none";
+}
+  // ------------------- LIGHTBOX PRO -------------------
+const albumImgs = Array.from(document.querySelectorAll(".album-grid img"));
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+let currentIndex = 0;
+
+function openLightbox(src){
+  currentIndex = albumImgs.findIndex(img => img.src.includes(src));
+  showImg();
+  lightbox.style.display = "flex";
+}
+
+function showImg(){
+  lightboxImg.src = albumImgs[currentIndex].src;
+}
+
+function closeLightbox(){
+  lightbox.style.display = "none";
+}
+
+function nextImg(){
+  currentIndex = (currentIndex + 1) % albumImgs.length;
+  showImg();
+}
+
+function prevImg(){
+  currentIndex = (currentIndex - 1 + albumImgs.length) % albumImgs.length;
+  showImg();
+}
+
+// Vuốt trên điện thoại
+let startX = 0;
+lightbox.addEventListener("touchstart",e=>{
+  startX = e.touches[0].clientX;
+});
+lightbox.addEventListener("touchend",e=>{
+  let diff = e.changedTouches[0].clientX - startX;
+  if(diff > 50) prevImg();
+  if(diff < -50) nextImg();
+});
 </script>
 </body>
 </html>
