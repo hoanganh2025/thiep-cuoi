@@ -149,7 +149,11 @@ textarea{min-height:80px;}
 <!-- RSVP Popup -->
 <div id="rsvpPopup">Cảm ơn bạn!</div>
 
-<!-- OPEN SCREEN -->
+<!-- OPEN SCREEN --><!-- INTRO STORY -->
+<div class="intro" id="intro">
+  <img id="introImg" src="">
+  <div id="introText"></div>
+</div>
 <div id="openScreen" onclick="openInvite()">
   <div style="font-size:42px">✝️</div>
   <h2>Thiệp Mời Lễ Hôn Phối</h2>
@@ -262,6 +266,7 @@ textarea{min-height:80px;}
 </div>
 
 <script>
+  const musicBtn = document.getElementById("musicBtn");
   const music = document.getElementById("music");
   let musicStarted = false;
 
@@ -330,12 +335,6 @@ function sendRSVP(e){
 }
 
 // ------------------- OPEN SCREEN + INTRO -------------------
-const openScreen=document.getElementById("openScreen"),
-      intro=document.getElementById("intro"),
-      introImg=document.getElementById("introImg"),
-      introText=document.getElementById("introText"),
-      main=document.getElementById("main"),
-      music=document.getElementById("music");
 
 const story=[
   {img:"19.png",text:"Từ lần gặp gỡ đầu tiên…"},
