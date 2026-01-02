@@ -120,6 +120,19 @@ textarea{min-height:80px;}
 .lb-close{top:18px;right:22px}
 .lb-prev{left:12px}
 .lb-next{right:12px}
+  /* INTRO MƯỢT */
+.intro img{
+  width:85%;
+  max-width:420px;
+  border-radius:20px;
+  opacity:0;
+  transform:scale(1.05);
+  transition:opacity 1.2s ease, transform 1.2s ease;
+}
+.intro.show img{
+  opacity:1;
+  transform:scale(1);
+}
 </style>
 </head>
 <body>
@@ -355,42 +368,25 @@ function playStory(i){
   if(i >= story.length){
     intro.classList.remove("show");
     setTimeout(()=>{
-      intro.style.display="none";
-      main.style.display="block";
+      intro.style.display = "none";
+      main.style.display = "block";
     },600);
     return;
   }
 
   introImg.style.opacity = 0;
-  introImg.style.transform = "scale(1.05)";
   introText.style.opacity = 0;
 
   setTimeout(()=>{
     introImg.src = story[i].img;
     introText.innerText = story[i].text;
-
     introImg.style.opacity = 1;
-    introImg.style.transform = "scale(1)";
     introText.style.opacity = 1;
-  },200);
+  },300);
 
   setTimeout(()=>{
     playStory(i + 1);
   }, 3500);
-}
-
-  // HIỂN THỊ ẢNH + TEXT
-  .intro img{
-  width:85%;
-  max-width:420px;
-  border-radius:20px;
-  opacity:0;
-  transform:scale(1.05);
-  transition:opacity 1.2s ease, transform 1.2s ease;
-}
-.intro.show img{
-  opacity:1;
-  transform:scale(1);
 }
 
   // CHUYỂN ẢNH SAU 3 GIÂY
