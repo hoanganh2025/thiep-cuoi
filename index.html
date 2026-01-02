@@ -72,12 +72,11 @@ textarea{min-height:80px;}
 <!-- RSVP Popup -->
 <div id="rsvpPopup">Cảm ơn bạn!</div>
 
-<!-- OPEN SCREEN -->
-<div id="openScreen">
+<!-- OPEN SCREEN --><div id="openScreen" onclick="openInvite()">
   <div style="font-size:42px">✝️</div>
   <h2>Thiệp Mời Lễ Hôn Phối</h2>
   <h1>Hoàng Anh & Phạm Nguyệt</h1>
-  <button onclick="openInvite()">💌 Chạm để mở thiệp</button>
+  <p style="opacity:.8;margin-top:15px">👆 Chạm để mở thiệp</p>
 </div>
 
 <!-- INTRO -->
@@ -270,14 +269,21 @@ const story=[
   {img:"love4.jpg",text:"Chúng con nên duyên vợ chồng 💍"}
 ];
 
+<script>
 function openInvite(){
-  openScreen.style.opacity="0";
+  const music = document.getElementById("music");
+
+  music.volume = 0.6;
+  music.play().catch(()=>{});
+
+  openScreen.style.opacity = "0";
   setTimeout(()=>{
-    openScreen.style.display="none";
-    intro.classList.add("show");
+    openScreen.style.display = "none";
+    intro.style.display = "flex";
     playStory(0);
   },600);
 }
+</script>
 
 function playStory(i){
   if(i>=story.length){intro.style.display="none"; main.style.display="block"; return;}
