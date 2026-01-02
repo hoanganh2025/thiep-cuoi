@@ -271,7 +271,10 @@ const story=[
 
 function openInvite(){
   music.volume = 0.6;
-  music.play().catch(()=>{});
+  music.play().then(()=>{
+    musicBtn.innerText = "🔊";
+    musicStarted = true;
+  }).catch(()=>{});
 
   openScreen.style.opacity = "0";
   setTimeout(()=>{
@@ -281,15 +284,30 @@ function openInvite(){
   },600);
 }
 
-function playStory(i){if(i>=story.length){
-  intro.classList.remove("show");
-  setTimeout(()=>{
-    intro.style.display="none";
-    main.style.display="block";
-  },600);
-  return;
-}
+function playStory(i){
+  if(i >= story.length){
+    intro.classList.remove("show");
+    setTimeout(()=>{
+      intro.style.display = "none";
+      main.style.display = "block";
+    }, 600);
+    return;
+  }
 
+  // HIỂN THỊ ẢNH + TEXT
+  introImg.src = story[i].img;
+  introText.innerText = story[i].text;
+
+  introText.style.opacity = 0;
+  setTimeout(()=>{
+    introText.style.opacity = 1;
+  }, 200);
+
+  // CHUYỂN ẢNH SAU 3 GIÂY
+  setTimeout(()=>{
+    playStory(i + 1);
+  }, 3000);
+}
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
 const weddingTime=new Date("2026-02-14T17:30:00+07:00").getTime();
