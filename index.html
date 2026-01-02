@@ -57,9 +57,25 @@ textarea{min-height:80px;}
 </div>
 
 <!-- MUSIC -->
-<audio id="music" loop>
-  <source src="https://github.com/hoanganh2025/thiep-cuoi/raw/e8665d00c4d5d1e4676de5dc1f8b48d65b14e641/i-do.mp3" type="audio/mpeg">
+<!-- MUSIC -->
+<audio id="music" loop autoplay>
+  <source src="https://github.com/hoanganh2025/thiep-cuoi/raw/main/i-do.mp3" type="audio/mpeg">
+  Trình duyệt của bạn không hỗ trợ nhạc.
 </audio>
+
+<script>
+  const music = document.getElementById("music");
+
+  // Tự động play khi người dùng mở trang (một số trình duyệt yêu cầu tương tác)
+  document.addEventListener("click", () => {
+    music.play().catch(()=>{}); // Nếu bị chặn, không báo lỗi
+  });
+
+  // Tự động bật nhạc sau khi intro
+  function playMusic() {
+    music.play().catch(()=>{});
+  }
+</script>
 
 <!-- MAIN CONTENT -->
 <div class="container" id="main">
