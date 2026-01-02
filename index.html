@@ -187,6 +187,7 @@ textarea{min-height:80px;}
 </div>
 
 <script>
+  const musicBtn = document.getElementById("musicBtn");
   let musicStarted = false;
 
 function toggleMusic(){
@@ -246,7 +247,12 @@ function sendRSVP(e){
   renderRSVP();
   e.target.reset();
   changeRSVPStyle();
-  if(status==="yes"){showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");}
+  if(status==="yes"){
+    showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");
+  }else{
+    showPopup("❌ Bạn không tham dự","#888");
+  }
+}
 
 // ------------------- OPEN SCREEN + INTRO -------------------
 const openScreen=document.getElementById("openScreen"),
@@ -275,13 +281,13 @@ function openInvite(){
   },600);
 }
 
-function playStory(i){
-  if(i>=story.length){intro.style.display="none"; main.style.display="block"; return;}
-  introImg.src=story[i].img;
-  introText.innerText=story[i].text;
-  introText.style.opacity=0;
-  setTimeout(()=>{introText.style.opacity=1;},100);
-  setTimeout(()=>playStory(i+1),3000);
+function playStory(i){if(i>=story.length){
+  intro.classList.remove("show");
+  setTimeout(()=>{
+    intro.style.display="none";
+    main.style.display="block";
+  },600);
+  return;
 }
 
 // ------------------- COUNTDOWN (UTC+7) -------------------
