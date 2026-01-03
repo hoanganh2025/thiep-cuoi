@@ -55,7 +55,9 @@
 .intro{
   position:fixed;
   inset:0;
-  background:#000;
+  background:
+    radial-gradient(circle at top, rgba(255,220,220,.35), transparent 60%),
+    linear-gradient(to bottom, #5a1a1a, #2b0b0b);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -65,6 +67,7 @@
   transition:opacity .8s ease;
   z-index:1000;
 }
+
 .intro-text{
   margin-top:20px;
   color:#fff;
@@ -88,10 +91,12 @@
 body{
   margin:0;
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(to bottom,#fdf6f0,#fff);
+  background:
+    linear-gradient(to bottom, #fff1ec, #ffffff);
   text-align:center;
   overflow-x:hidden;
 }
+
 
 /* ===== OPEN ===== */
 #openScreen{
