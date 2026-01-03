@@ -5,64 +5,103 @@
 <title>Thiệp Mời Lễ Cưới</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(to bottom,#fdf6f0,#fff);text-align:center;overflow-x:hidden;}
-#openScreen{position:fixed;inset:0;background:linear-gradient(to bottom,#9b3c3c,#6e1f1f);color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;transition:.6s;}
-#openScreen button{padding:14px 30px;border-radius:30px;border:none;font-size:18px;cursor:pointer;}
-.intro{position:fixed;inset:0;background:black;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:900;opacity:0;transition:opacity 1s;}
-.intro.show{opacity:1;}
-.intro img{width:85%;max-width:420px;border-radius:20px;}
-#introText{margin-top:20px;color:white;font-size:20px;font-style:italic;opacity:0;transition:opacity 1s;}
-.container{max-width:650px;margin:auto;padding:30px 20px;display:none;animation:fadeZoom 1.2s;}
-.cross{font-size:42px;color:#9b3c3c}
-h1,h2{color:#9b3c3c;margin:5px 0;}
-.divider{width:80px;height:3px;background:#9b3c3c;margin:20px auto;position:relative;}
-.divider::before{content:"✝️";position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#fff;padding:0 8px;}
-.scripture{font-style:italic;color:#666;}
-.card{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border-radius:18px;padding:22px;margin:22px 0;box-shadow:0 12px 30px rgba(0,0,0,.12);}
-.btn{display:inline-block;padding:12px 26px;border-radius:30px;background:#9b3c3c;color:white;text-decoration:none;margin:8px;cursor:pointer;}
-.btn.blue{background:#3c6e9b;}
-input,textarea,select{width:90%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;}
-textarea{min-height:80px;}
-.rsvp-no{background:#f5f5f5;border-radius:15px;padding:20px;transition:0.3s;}
-.rsvp-note{display:none;font-style:italic;color:#666;margin-top:10px;}
-@keyframes fadeZoom{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-.slider{position:relative;max-width:100%;height:320px;overflow:hidden;border-radius:20px;}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;}
-.slide.active{opacity:1}
-.slide img{width:100%;height:100%;object-fit:cover;cursor:pointer;}
-.caption{position:absolute;bottom:0;width:100%;padding:10px;background:rgba(0,0,0,.45);color:#fff;font-style:italic;}
-#lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);justify-content:center;align-items:center;z-index:999;transition:opacity 0.5s;}
-#lightbox img{max-width:90%;max-height:90%;border-radius:15px;}
-.flower{position:fixed;top:-40px;pointer-events:none;animation:fall linear forwards;}
-@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
-#rsvpPopup{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#3c6e9b;color:white;padding:15px 25px;border-radius:12px;font-weight:bold;display:none;z-index:1000;box-shadow:0 4px 15px rgba(0,0,0,.3);opacity:0;transition:0.3s;}
-/* MUSIC BUTTON */
-#musicBtn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  background:#9b3c3c;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  cursor:pointer;
-  z-index:1001;
-  box-shadow:0 6px 15px rgba(0,0,0,.3);
+/* ===== BASE ===== */
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(to bottom,#fdf6f0,#fff);
+  text-align:center;
+  overflow-x:hidden;
 }
 
-/* FLOWER (nhẹ hơn) */
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(180deg);
-    opacity:0;
-  }
+/* ===== OPEN ===== */
+#openScreen{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(to bottom,#9b3c3c,#6e1f1f);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  transition:.6s;
 }
-/* ===== ALBUM GRID (MƯỢT) ===== */
+#openScreen button{
+  padding:14px 30px;
+  border-radius:30px;
+  border:none;
+  font-size:18px;
+}
+
+/* ===== INTRO ===== */
+.intro{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:opacity 1s;
+  z-index:900;
+}
+.intro.show{opacity:1}
+.intro img{
+  width:85%;
+  max-width:420px;
+  border-radius:20px;
+  opacity:0;
+  transform:scale(1.05);
+  transition:1.2s;
+}
+.intro.show img{
+  opacity:1;
+  transform:scale(1);
+}
+#introText{
+  margin-top:20px;
+  color:#fff;
+  font-size:20px;
+  font-style:italic;
+  opacity:0;
+  transition:1s;
+}
+
+/* ===== CONTENT ===== */
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:30px 20px;
+  display:none;
+  animation:fadeZoom 1s;
+}
+@keyframes fadeZoom{
+  from{opacity:0;transform:scale(.97)}
+  to{opacity:1;transform:scale(1)}
+}
+
+.card{
+  background:rgba(255,255,255,.85);
+  border-radius:18px;
+  padding:22px;
+  margin:22px 0;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  display:inline-block;
+  padding:12px 26px;
+  border-radius:30px;
+  background:#9b3c3c;
+  color:#fff;
+  text-decoration:none;
+  margin:8px;
+}
+
+/* ===== ALBUM ===== */
 .album-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -75,26 +114,22 @@ textarea{min-height:80px;}
   object-fit:cover;
   border-radius:16px;
   cursor:pointer;
-  transition:transform .45s ease, box-shadow .45s ease;
+  transition:.4s;
 }
 .album-grid img:hover{
-  transform:scale(1.08);
-  box-shadow:0 12px 28px rgba(0,0,0,.28);
+  transform:scale(1.06);
 }
 
 @media(max-width:600px){
-  .album-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .album-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-/* ===== LIGHTBOX PRO ===== */
+/* ===== LIGHTBOX ===== */
 #lightbox{
-  display:none;
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.9);
-  backdrop-filter:blur(6px);
+  display:none;
   justify-content:center;
   align-items:center;
   z-index:3000;
@@ -103,36 +138,19 @@ textarea{min-height:80px;}
   max-width:92%;
   max-height:92%;
   border-radius:20px;
-  animation:zoomIn .35s ease;
 }
-@keyframes zoomIn{
-  from{transform:scale(.92);opacity:0}
-  to{transform:scale(1);opacity:1}
+
+/* ===== FLOWER (NHẸ) ===== */
+.flower{
+  position:fixed;
+  top:-30px;
+  pointer-events:none;
+  animation:fall linear forwards;
 }
-.lb-close,.lb-prev,.lb-next{
-  position:absolute;
-  color:white;
-  font-size:34px;
-  cursor:pointer;
-  padding:10px;
-  user-select:none;
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0}
 }
-.lb-close{top:18px;right:22px}
-.lb-prev{left:12px}
-.lb-next{right:12px}
-  /* INTRO MƯỢT */
-.intro img{
-  width:85%;
-  max-width:420px;
-  border-radius:20px;
-  opacity:0;
-  transform:scale(1.05);
-  transition:opacity 1.2s ease, transform 1.2s ease;
-}
-.intro.show img{
-  opacity:1;
-  transform:scale(1);
-}
+
 </style>
 </head>
 <body>
@@ -422,15 +440,17 @@ function toggleQR(){
 const flowers=["🌸","💮","🌺"];
 
 setInterval(()=>{
+  if(document.hidden) return; // không tạo khi tab ẩn
   const f=document.createElement("div");
   f.className="flower";
-  f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+  f.textContent=["🌸","💮","🌺"][Math.random()*3|0];
   f.style.left=Math.random()*100+"vw";
-  f.style.fontSize=16+Math.random()*12+"px";
-  f.style.animationDuration=8+Math.random()*6+"s";
+  f.style.fontSize=14+Math.random()*10+"px";
+  f.style.animationDuration=10+Math.random()*6+"s";
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),15000);
-},1000);
+  setTimeout(()=>f.remove(),16000);
+},1800);
+
 // ===== LIGHTBOX PRO =====
 const albumImgs = Array.from(document.querySelectorAll(".album-grid img"));
 const lightbox = document.getElementById("lightbox");
