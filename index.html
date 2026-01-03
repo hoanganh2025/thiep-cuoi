@@ -348,19 +348,24 @@ function showPopup(msg,color="#3c6e9b"){
   setTimeout(()=>{popup.style.opacity=0;setTimeout(()=>popup.style.display="none",300);},2000);
 }
 
-function sendRSVP(e){
+async function sendRSVP(e){
   e.preventDefault();
-  const status=rsvpStatus.value;
-  rsvpData.unshift({name:rsvpName.value,status:status});
-  localStorage.setItem("rsvpData",JSON.stringify(rsvpData));
-  renderRSVP();
-  e.target.reset();
-  changeRSVPStyle();
-  if(status==="yes"){
-    showPopup("✅ Cảm ơn bạn đã xác nhận!","#3c6e9b");
-  }else{
-    showPopup("❌ Bạn không tham dự","#888");
-  }
+  const name = rsvpName.value;
+  const status = rsvpStatus.value;
+
+  await fetch(API_URL,{
+    method:"POST",
+    body: JSON.stringify({
+      type:"rsvp",
+      name,
+      status
+    })
+  });
+
+  rsvpName.value="";
+  rsvpStatus.value="";
+  showPopup("✅ Cảm ơn bạn!");
+  loadData();
 }
 
 // ------------------- OPEN SCREEN + INTRO -------------------
@@ -435,11 +440,19 @@ setInterval(()=>{
 const wishList=document.getElementById("wishList"),
       wishName=document.getElementById("wishName"),
       wishText=document.getElementById("wishText");
-function sendWish(e){e.preventDefault();
-  const div=document.createElement("div");
-  div.innerHTML=`<b>${wishName.value}</b>: ${wishText.value}`;
-  wishList.prepend(div);
-  e.target.reset();
+async function sendWish(e){
+  e.preventDefault();
+  await fetch(API_URL,{
+    method:"POST",
+    body: JSON.stringify({
+      type:"wish",
+      name: wishName.value,
+      message: wishText.value
+    })
+  });
+  wishName.value="";
+  wishText.value="";
+  loadData();
 }
 
 
@@ -506,7 +519,32 @@ lightbox.addEventListener("touchend",e=>{
   if(diff < -50) nextImg();
 });
 const API_URL="https://docs.google.com/spreadsheets/d/1ix3cYCXcb3lGlgKAhV_9MnIHU0bdEHgWvBeIDneOOTo/edit?usp=sharing";
-  
+  async function loadData(){
+  const res = await fetch(API_URL);
+  const data = await res.json();
+
+  // RSVP
+  rsvpListEl.innerHTML="";
+  let yes=0,no=0;
+  data.rsvp.reverse().forEach(r=>{
+    const div=document.createElement("div");
+    div.innerHTML=`<b>${r[1]}</b> – ${r[2]=="yes"?"✅ Tham dự":"❌ Không tham dự"}`;
+    rsvpListEl.appendChild(div);
+    r[2]=="yes"?yes++:no++;
+  });
+  yesCountEl.innerText=yes;
+  noCountEl.innerText=no;
+
+  // WISH
+  wishList.innerHTML="";
+  data.wish.reverse().forEach(w=>{
+    const div=document.createElement("div");
+    div.innerHTML=`<b>${w[1]}</b>: ${w[2]}`;
+    wishList.appendChild(div);
+  });
+}
+
+loadData();
 </script>
 </body>
 </html>
