@@ -225,6 +225,31 @@ body{
 .lb-close{top:18px;right:22px}
 .lb-prev{left:14px}
 .lb-next{right:14px}
+/* ===== THỐNG KÊ RSVP ===== */
+.stats{
+  display:flex;
+  justify-content:space-around;
+  margin:20px 10px;
+  padding:15px;
+  background:rgba(255,255,255,.6);
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.stats div{
+  text-align:center;
+}
+
+.stats b{
+  display:block;
+  font-size:26px;
+  color:#7a2f2f;
+}
+
+.stats span{
+  font-size:13px;
+  color:#8a5a5a;
+}
 
 </style>
 </head>
@@ -340,6 +365,22 @@ body{
 <p style="margin-top:15px;font-weight:bold">👥 Tham dự: <span id="yesCount">0</span> | ❌ Không tham dự: <span id="noCount">0</span></p>
 <div id="rsvpList" style="font-size:14px;margin-top:10px"></div>
 </div>
+<!-- ===== THỐNG KÊ ===== -->
+<div class="stats">
+  <div>
+    <b id="countYes">0</b>
+    <span>Tham dự</span>
+  </div>
+  <div>
+    <b id="countNo">0</b>
+    <span>Không tham dự</span>
+  </div>
+  <div>
+    <b id="countWish">0</b>
+    <span>Lời chúc</span>
+  </div>
+</div>
+<!-- ===== END THỐNG KÊ ===== -->
 
 <!-- LỜI CHÚC -->
 <h2>💌 Gửi Lời Chúc</h2>
@@ -357,6 +398,9 @@ body{
 
 <footer style="margin:40px 0;color:#777">“Xin Thiên Chúa chúc lành cho tình yêu của chúng con”</footer>
 </div>
+👥 Tham dự: <span id="countYes">0</span> |
+❌ Không tham dự: <span id="countNo">0</span> |
+💌 Lời chúc: <span id="countWish">0</span>
 
 <script>
   const API_URL="https://script.google.com/macros/s/AKfycbzb4O2qDwYd2sMgrTlLERY0S8_ZYazaH_28zeO84zGIiWoD3huY_ittCAI3Mm3aqxA/exec";
@@ -368,8 +412,6 @@ const main = document.getElementById("main");
   const musicBtn = document.getElementById("musicBtn");
   const music = document.getElementById("music");
   let musicStarted = false;
-const yesCountEl = document.getElementById("yesCount");
-const noCountEl = document.getElementById("noCount");
 function toggleMusic(){
   if(!musicStarted){
     music.play();
@@ -383,6 +425,9 @@ function toggleMusic(){
     musicBtn.innerText = "🔇";
   }
 }
+const yesCountEl = document.getElementById("countYes");
+const noCountEl = document.getElementById("countNo");
+const wishCountEl = document.getElementById("countWish");
 
 // ------------------- RSVP -------------------
 const rsvpCard=document.getElementById("rsvpCard"),
@@ -609,58 +654,68 @@ lightbox.addEventListener("touchend",e=>{
 });
 
 async function loadData(){
+  let yes = 0, no = 0, wish = 0;
+
   const res = await fetch(API_URL);
   const data = await res.json();
 
-  let yes = 0;
-  let no = 0;
-  rsvpListEl.innerHTML = "";
   // ===== RSVP =====
-    const lastName = localStorage.getItem("lastRSVP");
+  rsvpListEl.innerHTML = "";
+  const lastName = localStorage.getItem("lastRSVP");
+
   data.rsvp.slice().reverse().forEach(r=>{
-  const div = document.createElement("div");
+    const div = document.createElement("div");
 
-  div.style.display = "flex";
-  div.style.justifyContent = "space-between";
-  div.style.alignItems = "center";
-  div.style.padding = "8px 6px";
-  div.style.borderBottom = "1px dashed #ddd";
-  div.style.fontSize = "14px";
+    div.style.display = "flex";
+    div.style.justifyContent = "space-between";
+    div.style.alignItems = "center";
+    div.style.padding = "8px 6px";
+    div.style.borderBottom = "1px dashed #ddd";
+    div.style.fontSize = "14px";
 
-  const isYes = r[2] === "yes";
+    const isYes = r[2] === "yes";
 
-  div.innerHTML = `
-    <span>
-      ${isYes ? "✅" : "❌"} <b>${r[1]}</b>
-    </span>
-    <span style="color:${isYes ? "#3c6e9b" : "#b86b6b"}">
-      ${isYes ? "Tham dự" : "Không tham dự"}
-    </span>
-  `;
-  if (r[1] === lastName) {
-    div.style.background = "#fff6e5";
-    div.style.borderRadius = "8px";
-    div.style.fontWeight = "bold";
-  }
-  rsvpListEl.appendChild(div);
+    div.innerHTML = `
+      <span>${isYes ? "✅" : "❌"} <b>${r[1]}</b></span>
+      <span style="color:${isYes ? "#3c6e9b" : "#b86b6b"}">
+        ${isYes ? "Tham dự" : "Không tham dự"}
+      </span>
+    `;
 
-  isYes ? yes++ : no++;
-});
-yesCountEl.innerText = yes;
-noCountEl.innerText = no;
+    if (r[1] === lastName) {
+      div.style.background = "#fff6e5";
+      div.style.borderRadius = "8px";
+      div.style.fontWeight = "bold";
+    }
+
+    rsvpListEl.appendChild(div);
+
+    isYes ? yes++ : no++;
+  });
+
+  // HIỂN THỊ SỐ RSVP
+  yesCountEl.innerText = yes;
+  noCountEl.innerText = no;
 
   // ===== WISH =====
-  wishList.innerHTML="";
+  wishList.innerHTML = "";
+
   data.wish.slice().reverse().forEach(w=>{
-    const div=document.createElement("div");
-    div.style.margin="10px 0";
-    div.style.padding="10px";
-    div.style.background="#fff";
-    div.style.borderRadius="10px";
-    div.style.boxShadow="0 4px 10px rgba(0,0,0,.08)";
-    div.innerHTML=`<b>${w[1]}</b><br>${w[2]}`;
+    wish++; // ✅ ĐẾM LỜI CHÚC
+
+    const div = document.createElement("div");
+    div.style.margin = "10px 0";
+    div.style.padding = "10px";
+    div.style.background = "#fff";
+    div.style.borderRadius = "10px";
+    div.style.boxShadow = "0 4px 10px rgba(0,0,0,.08)";
+    div.innerHTML = `<b>${w[1]}</b><br>${w[2]}`;
+
     wishList.appendChild(div);
   });
+
+  // HIỂN THỊ SỐ LỜI CHÚC
+  wishCountEl.innerText = wish;
 }
 
 setTimeout(loadData, 800);
