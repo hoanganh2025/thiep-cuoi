@@ -19,7 +19,7 @@
     filter 1.2s ease;
 }
 .intro{
-  position:fixed;
+  position:fixed;       /* ✅ GIỮ fixed */
   inset:0;
   background:#000;
   display:flex;
@@ -30,8 +30,6 @@
   pointer-events:none;
   transition:opacity .8s ease;
   z-index:900;
-
-  position:relative; /* ✅ BẮT BUỘC */
 }
 
 .intro.show img{
