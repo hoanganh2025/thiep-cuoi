@@ -221,8 +221,7 @@ body{
 <h2>📷 Khoảnh Khắc Hạnh Phúc</h2>
 
 <div class="album-grid">
-  <img src="DSC03092.jpeg" loading="lazy">
-  <img src="DSC03092.jpeg" onclick="openLightboxByIndex(0)">
+  <img src="DSC03092.jpeg" loading="lazy" onclick="openLightboxByIndex(0)">
 <img src="album2.jpg" onclick="openLightboxByIndex(1)">
 <img src="0B9A2754.jpeg" onclick="openLightboxByIndex(2)">
 <img src="0B9A2930.jpeg" onclick="openLightboxByIndex(3)">
@@ -320,8 +319,7 @@ const rsvpCard=document.getElementById("rsvpCard"),
       prayNote=document.getElementById("prayNote"),
       rsvpName=document.getElementById("rsvpName"),
       rsvpListEl=document.getElementById("rsvpList"),
-      yesCountEl=document.getElementById("yesCount"),
-      noCountEl=document.getElementById("noCount");
+    
 
 function changeRSVPStyle(){
   if(rsvpStatus.value==="no"){rsvpCard.classList.add("rsvp-no");prayNote.style.display="block";}
@@ -478,18 +476,28 @@ const wishList=document.getElementById("wishList"),
       wishText=document.getElementById("wishText");
 async function sendWish(e){
   e.preventDefault();
+
+  const name = wishName.value.trim();
+  const message = wishText.value.trim();
+  if(!name || !message) return;
+
   await fetch(API_URL,{
     method:"POST",
+    headers:{ "Content-Type":"application/json" },
     body: JSON.stringify({
       type:"wish",
-      name: wishName.value,
-      message: wishText.value
+      name,
+      message
     })
   });
+
   wishName.value="";
   wishText.value="";
+
+  showPopup("💌 Đã gửi lời chúc!");
   loadData();
 }
+
 
 
 
