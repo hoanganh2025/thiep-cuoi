@@ -6,6 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   /* ===== INTRO CINEMATIC ===== */
+  .intro-img.show{
+  opacity:1;
+  transform:scale(1) translateY(0);
+  filter:blur(0);
+}
+.intro-text.show{
+  opacity:1;
+  transform:translateY(0);
+}
 .intro img{
   width:85%;
   max-width:420px;
@@ -46,14 +55,6 @@
   opacity:0;
   transform:translateY(10px);
   transition:opacity 1s ease .3s, transform 1s ease .3s;
-}
-.intro.show{
-  opacity:1;
-  pointer-events:auto;
-}
-.intro.show #introText{
-  opacity:1;
-  transform:translateY(0);
 }
 .intro::after{
   content:"";
@@ -417,7 +418,7 @@ function openInvite(){
 
 function playStory(i){
   if(i >= story.length){
-    intro.classList.remove("show");
+    intro.style.opacity="0";
     setTimeout(()=>{
       intro.style.display="none";
       main.style.display="block";
@@ -425,26 +426,24 @@ function playStory(i){
     return;
   }
 
-  // Fade out ảnh cũ
-  intro.classList.remove("show");
+  introImg.classList.remove("show");
+  introText.classList.remove("show");
 
   setTimeout(()=>{
     introImg.src = story[i].img;
     introText.innerText = story[i].text;
 
-    // Fade in ảnh mới
-    intro.classList.add("show");
-  },700); // đợi fade out xong
+    introImg.classList.add("show");
+    introText.classList.add("show");
+  },600);
 
-  setTimeout(()=>{
-    playStory(i+1);
-  },4500); // nhịp rất đẹp cho nhạc cưới
+  setTimeout(()=>playStory(i+1),4200);
 }
 
 
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
-const weddingTime=new Date("2026-02-14T17:30:00+07:00").getTime();
+const weddingTime = new Date("2026-02-11T15:30:00+07:00").getTime();
 setInterval(()=>{
   const d=weddingTime-Date.now();
   if(d<=0){countdown.innerHTML="🎉 Lễ cưới đã bắt đầu"; return;}
