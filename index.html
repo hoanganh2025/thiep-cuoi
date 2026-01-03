@@ -221,6 +221,7 @@ body{
 <h2>📷 Khoảnh Khắc Hạnh Phúc</h2>
 
 <div class="album-grid">
+  <img src="DSC03092.jpeg" loading="lazy">
   <img src="DSC03092.jpeg" onclick="openLightboxByIndex(0)">
 <img src="album2.jpg" onclick="openLightboxByIndex(1)">
 <img src="0B9A2754.jpeg" onclick="openLightboxByIndex(2)">
@@ -321,18 +322,6 @@ const rsvpCard=document.getElementById("rsvpCard"),
       rsvpListEl=document.getElementById("rsvpList"),
       yesCountEl=document.getElementById("yesCount"),
       noCountEl=document.getElementById("noCount");
-let rsvpData=JSON.parse(localStorage.getItem("rsvpData")||"[]");
-
-function renderRSVP(){
-  rsvpListEl.innerHTML="";
-  let yes=0,no=0;
-  rsvpData.forEach(r=>{
-    const div=document.createElement("div");
-    div.style.borderBottom="1px dashed #ccc"; div.style.padding="6px 0";
-    div.innerHTML=`<b>${r.name}</b> – ${r.status==="yes"?"✅ Tham dự":"❌ Không tham dự"}`;
-    rsvpListEl.appendChild(div);
-    r.status==="yes"?yes++:no++;
-  });
   yesCountEl.innerText=yes; noCountEl.innerText=no;
 }
 
@@ -350,11 +339,15 @@ function showPopup(msg,color="#3c6e9b"){
 
 async function sendRSVP(e){
   e.preventDefault();
-  const name = rsvpName.value;
+
+  const name = rsvpName.value.trim();
   const status = rsvpStatus.value;
+
+  if(!name || !status) return;
 
   await fetch(API_URL,{
     method:"POST",
+    headers:{ "Content-Type":"application/json" },
     body: JSON.stringify({
       type:"rsvp",
       name,
@@ -364,9 +357,11 @@ async function sendRSVP(e){
 
   rsvpName.value="";
   rsvpStatus.value="";
-  showPopup("✅ Cảm ơn bạn!");
-  loadData();
+
+  showPopup("✅ Cảm ơn bạn đã phản hồi!");
+  loadData(); // 👉 reload danh sách ngay
 }
+
 
 // ------------------- OPEN SCREEN + INTRO -------------------
 
