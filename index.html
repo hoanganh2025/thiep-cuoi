@@ -341,6 +341,7 @@ body{
 </div>
 
 <script>
+  const API_URL="https://script.google.com/macros/s/AKfycbyqMOs2Q5DxH2bJaOGkmlbkmITDuJSZKvovznDU02aMi7sIuQ3aZFXk8jhS57lHnJ0B/exec";
   const openScreen = document.getElementById("openScreen");
 const intro = document.getElementById("intro");
 const introImg = document.getElementById("introImg");
@@ -577,7 +578,7 @@ lightbox.addEventListener("touchend",e=>{
   if(diff > 50) prevImg();
   if(diff < -50) nextImg();
 });
-const API_URL="https://script.google.com/macros/s/AKfycbyqMOs2Q5DxH2bJaOGkmlbkmITDuJSZKvovznDU02aMi7sIuQ3aZFXk8jhS57lHnJ0B/exec";
+
 async function loadData(){
   const res = await fetch(API_URL);
   const data = await res.json();
