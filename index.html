@@ -5,6 +5,41 @@
 <title>Thiệp Mời Lễ Cưới</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  /* ===== INTRO CINEMATIC ===== */
+.intro img{
+  width:85%;
+  max-width:420px;
+  border-radius:20px;
+  opacity:0;
+  transform:scale(1.08) translateY(10px);
+  filter:blur(6px);
+  transition:
+    opacity 1.2s ease,
+    transform 1.2s ease,
+    filter 1.2s ease;
+}
+
+.intro.show img{
+  opacity:1;
+  transform:scale(1) translateY(0);
+  filter:blur(0);
+}
+
+#introText{
+  margin-top:20px;
+  color:#fff;
+  font-size:20px;
+  font-style:italic;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 1s ease .3s, transform 1s ease .3s;
+}
+
+.intro.show #introText{
+  opacity:1;
+  transform:translateY(0);
+}
+
 /* ===== BASE ===== */
 body{
   margin:0;
@@ -429,34 +464,32 @@ function openInvite(){
   },600);
 }
 
-
 function playStory(i){
   if(i >= story.length){
     intro.classList.remove("show");
     setTimeout(()=>{
       intro.style.display = "none";
       main.style.display = "block";
-    },600);
+    },800);
     return;
   }
 
-  introImg.style.opacity = 0;
-  introImg.style.transform = "scale(1.05)";
-  introText.style.opacity = 0;
+  // Reset trạng thái (fade out)
+  intro.classList.remove("show");
 
   setTimeout(()=>{
     introImg.src = story[i].img;
     introText.innerText = story[i].text;
 
-    introImg.style.opacity = 1;
-    introImg.style.transform = "scale(1)";
-    introText.style.opacity = 1;
-  },200);
+    // Fade in
+    intro.classList.add("show");
+  },500);
 
   setTimeout(()=>{
     playStory(i + 1);
-  },3500);
-  }
+  },4200); // mỗi ảnh ~4.2s
+}
+
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
 const weddingTime=new Date("2026-02-14T17:30:00+07:00").getTime();
