@@ -39,6 +39,12 @@
   opacity:1;
   transform:translateY(0);
 }
+.intro::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, transparent 60%, rgba(0,0,0,.6));
+}
 
 /* ===== BASE ===== */
 body{
@@ -69,40 +75,6 @@ body{
   font-size:18px;
 }
 
-/* ===== INTRO ===== */
-.intro{
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  transition:opacity 1s;
-  z-index:900;
-}
-.intro.show{opacity:1}
-.intro img{
-  width:85%;
-  max-width:420px;
-  border-radius:20px;
-  opacity:0;
-  transform:scale(1.05);
-  transition:1.2s;
-}
-.intro.show img{
-  opacity:1;
-  transform:scale(1);
-}
-#introText{
-  margin-top:20px;
-  color:#fff;
-  font-size:20px;
-  font-style:italic;
-  opacity:0;
-  transition:1s;
-}
 
 /* ===== CONTENT ===== */
 .container{
@@ -353,7 +325,8 @@ const rsvpCard=document.getElementById("rsvpCard"),
       rsvpStatus=document.getElementById("rsvpStatus"),
       prayNote=document.getElementById("prayNote"),
       rsvpName=document.getElementById("rsvpName"),
-      rsvpListEl=document.getElementById("rsvpList"),
+      rsvpListEl=document.getElementById("rsvpList");
+
     
 
 function changeRSVPStyle(){
@@ -468,27 +441,28 @@ function playStory(i){
   if(i >= story.length){
     intro.classList.remove("show");
     setTimeout(()=>{
-      intro.style.display = "none";
-      main.style.display = "block";
+      intro.style.display="none";
+      main.style.display="block";
     },800);
     return;
   }
 
-  // Reset trạng thái (fade out)
+  // Fade out ảnh cũ
   intro.classList.remove("show");
 
   setTimeout(()=>{
     introImg.src = story[i].img;
     introText.innerText = story[i].text;
 
-    // Fade in
+    // Fade in ảnh mới
     intro.classList.add("show");
-  },500);
+  },700); // đợi fade out xong
 
   setTimeout(()=>{
-    playStory(i + 1);
-  },4200); // mỗi ảnh ~4.2s
+    playStory(i+1);
+  },4500); // nhịp rất đẹp cho nhạc cưới
 }
+
 
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
