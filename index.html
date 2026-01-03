@@ -5,6 +5,13 @@
 <title>Thiệp Mời Lễ Cưới</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  .rsvp-note{
+  margin-top:10px;
+  font-size:14px;
+  color:#b86b6b;
+  display:none;
+}
+
   .btn.blue{
   background:#3c6e9b;
 }
@@ -32,10 +39,12 @@
   transform:scale(1) translateY(0);
   filter:blur(0);
 }
-.intro-text.show{
-  opacity:1;
-  transform:translateY(0);
+.intro-text{
+  color:#5a2a2a;
+  text-shadow:0 2px 8px rgba(0,0,0,.2);
+  font-weight:500;
 }
+
 .intro img{
   width:85%;
   max-width:420px;
@@ -85,6 +94,11 @@
   background:radial-gradient(circle at center, transparent 60%, rgba(0,0,0,.6));
   z-index:0;
   pointer-events:none;
+}
+.intro img,
+.intro-text{
+  position:relative;
+  z-index:1;
 }
 
 /* ===== BASE ===== */
@@ -654,7 +668,7 @@ noCountEl.innerText = no;
   });
 }
 
-loadData();
+setTimeout(loadData, 800);
 </script>
 </body>
 </html>
