@@ -472,11 +472,12 @@ function openInvite(){
 
   // HIỆU ỨNG MỞ THIỆP
   openScreen.style.opacity = "0";
-  setTimeout(()=>{
-    openScreen.style.display = "none";
-    intro.classList.add("show");
-    playStory(0);
-  },600);
+ setTimeout(()=>{
+  openScreen.style.display = "none";
+  intro.classList.add("show");
+  loadData();        // ✅ LOAD RSVP + WISH NGAY
+  playStory(0);
+},600);
 }
 
 function playStory(i){
