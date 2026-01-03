@@ -426,7 +426,10 @@ const story=[
   {img:"DSC02992.jpeg",text:"Và hôm nay…"},
   {img:"love4.jpg",text:"Chúng con nên duyên vợ chồng 💍"}
 ];
-
+story.forEach(s=>{
+  const img = new Image();
+  img.src = s.img;
+});
 function openInvite(){
   // PHÁT NHẠC NGAY SAU CLICK
   music.volume = 0.7;
@@ -579,6 +582,9 @@ async function loadData(){
   const res = await fetch(API_URL);
   const data = await res.json();
 
+  let yes = 0;
+  let no = 0;
+  rsvpListEl.innerHTML = "";
   // ===== RSVP =====
     const lastName = localStorage.getItem("lastRSVP");
   data.rsvp.slice().reverse().forEach(r=>{
