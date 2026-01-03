@@ -370,7 +370,6 @@ async function sendRSVP(e){
 
   const name = rsvpName.value.trim();
   const status = rsvpStatus.value;
-
   if(!name || !status) return;
 
   await fetch(API_URL,{
@@ -387,6 +386,8 @@ async function sendRSVP(e){
   rsvpStatus.value="";
 
   showPopup("✅ Cảm ơn bạn đã phản hồi!");
+  loadData(); // 👉 chỉ gọi lại loadData
+}
   /* ===== RSVP ===== */
   rsvpListEl.innerHTML="";
   let yes=0,no=0;
@@ -426,20 +427,7 @@ async function sendRSVP(e){
   });
 }
 
-  data.rsvp.slice().reverse().forEach(r=>{
-  const div=document.createElement("div");
-  div.style.display="flex";
-  div.style.justifyContent="space-between";
-  div.style.borderBottom="1px dashed #ddd";
-  div.style.padding="6px 0";
-  div.innerHTML = `
-    <span><b>${r[1]}</b></span>
-    <span>${r[2]==="yes"?"✅ Tham dự":"❌ Không tham dự"}</span>
-  `;
-  rsvpListEl.appendChild(div);
-  r[2]==="yes"?yes++:no++;
-});
-}
+  
 
 
 // ------------------- OPEN SCREEN + INTRO -------------------
@@ -602,27 +590,41 @@ lightbox.addEventListener("touchend",e=>{
   if(diff < -50) nextImg();
 });
 const API_URL="https://script.google.com/macros/s/AKfycbyqMOs2Q5DxH2bJaOGkmlbkmITDuJSZKvovznDU02aMi7sIuQ3aZFXk8jhS57lHnJ0B/exec";
-  async function loadData(){
+async function loadData(){
   const res = await fetch(API_URL);
   const data = await res.json();
 
-  // RSVP
+  // ===== RSVP =====
   rsvpListEl.innerHTML="";
   let yes=0,no=0;
-  data.rsvp.reverse().forEach(r=>{
+
+  data.rsvp.slice().reverse().forEach(r=>{
     const div=document.createElement("div");
-    div.innerHTML=`<b>${r[1]}</b> – ${r[2]=="yes"?"✅ Tham dự":"❌ Không tham dự"}`;
+    div.style.display="flex";
+    div.style.justifyContent="space-between";
+    div.style.padding="6px 0";
+    div.style.borderBottom="1px dashed #ddd";
+    div.innerHTML=`
+      <span><b>${r[1]}</b></span>
+      <span>${r[2]==="yes"?"✅ Tham dự":"❌ Không tham dự"}</span>
+    `;
     rsvpListEl.appendChild(div);
-    r[2]=="yes"?yes++:no++;
+    r[2]==="yes"?yes++:no++;
   });
+
   yesCountEl.innerText=yes;
   noCountEl.innerText=no;
 
-  // WISH
+  // ===== WISH =====
   wishList.innerHTML="";
-  data.wish.reverse().forEach(w=>{
+  data.wish.slice().reverse().forEach(w=>{
     const div=document.createElement("div");
-    div.innerHTML=`<b>${w[1]}</b>: ${w[2]}`;
+    div.style.margin="10px 0";
+    div.style.padding="10px";
+    div.style.background="#fff";
+    div.style.borderRadius="10px";
+    div.style.boxShadow="0 4px 10px rgba(0,0,0,.08)";
+    div.innerHTML=`<b>${w[1]}</b><br>${w[2]}`;
     wishList.appendChild(div);
   });
 }
