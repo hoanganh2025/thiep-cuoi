@@ -5,8 +5,12 @@
 <title>Thiệp Mời Lễ Cưới</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  .rsvp-no{
+  background:#fdf2f2;
+  border:1px solid #e2a0a0;
+}
   /* ===== INTRO CINEMATIC ===== */
-  .intro-img.show{
+.intro-img.show{
   opacity:1;
   transform:scale(1) translateY(0);
   filter:blur(0);
@@ -145,8 +149,10 @@ body{
   transform:scale(1.06);
 }
 
-@media(max-width:600px){
-  .album-grid{grid-template-columns:repeat(2,1fr)}
+@media (hover:hover){
+  .album-grid img:hover{
+    transform:scale(1.06);
+  }
 }
 
 /* ===== LIGHTBOX ===== */
@@ -206,8 +212,8 @@ body{
 
 <!-- OPEN SCREEN --><!-- INTRO STORY -->
 <div class="intro" id="intro">
-  <img id="introImg" src="">
-  <div id="introText"></div>
+ <img id="introImg" class="intro-img">
+<div id="introText" class="intro-text"></div>
 </div>
 <div id="openScreen" onclick="openInvite()">
   <div style="font-size:42px">✝️</div>
@@ -432,7 +438,6 @@ function playStory(i){
   setTimeout(()=>{
     introImg.src = story[i].img;
     introText.innerText = story[i].text;
-
     introImg.classList.add("show");
     introText.classList.add("show");
   },600);
