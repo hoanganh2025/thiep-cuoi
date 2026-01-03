@@ -110,12 +110,11 @@ body{
 }
 .album-grid img{
   width:100%;
-  height:150px;
-  object-fit:cover;
-  border-radius:16px;
-  cursor:pointer;
-  transition:.4s;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  image-rendering: auto;
 }
+
 .album-grid img:hover{
   transform:scale(1.06);
 }
@@ -150,6 +149,18 @@ body{
 @keyframes fall{
   to{transform:translateY(110vh);opacity:0}
 }
+/* ===== FIX NÚT LIGHTBOX ===== */
+.lb-close,.lb-prev,.lb-next{
+  position:absolute;
+  color:white;
+  font-size:36px;
+  z-index:3100;
+  cursor:pointer;
+  user-select:none;
+}
+.lb-close{top:18px;right:22px}
+.lb-prev{left:14px}
+.lb-next{right:14px}
 
 </style>
 </head>
@@ -181,9 +192,8 @@ body{
 
 
 <!-- MUSIC -->
-<audio id="music" loop>
+<audio id="music" loop preload="auto">
   <source src="i-do.mp3.mp3" type="audio/mpeg">
-  
 </audio>
 
 <!-- MAIN CONTENT -->
@@ -211,12 +221,12 @@ body{
 <h2>📷 Khoảnh Khắc Hạnh Phúc</h2>
 
 <div class="album-grid">
-  <img src="DSC03092.jpeg" onclick="openLightbox(this.src)">
-  <img src="album2.jpg" onclick="openLightbox(this.src)">
-  <img src="0B9A2754.jpeg" onclick="openLightbox(this.src)">
-  <img src="0B9A2930.jpeg" onclick="openLightbox(this.src)">
-  <img src="0B9A3041.jpeg" onclick="openLightbox(this.src)">
-  <img src="19.png" onclick="openLightbox(this.src)">
+  <img src="DSC03092.jpeg" onclick="openLightboxByIndex(0)">
+<img src="album2.jpg" onclick="openLightboxByIndex(1)">
+<img src="0B9A2754.jpeg" onclick="openLightboxByIndex(2)">
+<img src="0B9A2930.jpeg" onclick="openLightboxByIndex(3)">
+<img src="0B9A3041.jpeg" onclick="openLightboxByIndex(4)">
+<img src="19.png" onclick="openLightboxByIndex(5)">
 </div>
 
 <!-- LỄ -->
@@ -363,12 +373,15 @@ const story=[
 ];
 
 function openInvite(){
-  music.volume = 0.6;
+  // PHÁT NHẠC NGAY SAU CLICK
+  music.volume = 0.7;
+  music.currentTime = 0;
   music.play().then(()=>{
-    musicBtn.innerText = "🔊";
     musicStarted = true;
+    musicBtn.innerText = "🔊";
   }).catch(()=>{});
 
+  // HIỆU ỨNG MỞ THIỆP
   openScreen.style.opacity = "0";
   setTimeout(()=>{
     openScreen.style.display = "none";
@@ -376,6 +389,7 @@ function openInvite(){
     playStory(0);
   },600);
 }
+
 
 function playStory(i){
   if(i >= story.length){
@@ -451,15 +465,13 @@ setInterval(()=>{
   setTimeout(()=>f.remove(),16000);
 },1800);
 
-// ===== LIGHTBOX PRO =====
 const albumImgs = Array.from(document.querySelectorAll(".album-grid img"));
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
 let currentIndex = 0;
 
-function openLightbox(src){
-  currentIndex = albumImgs.findIndex(img => img.src.includes(src));
-  if(currentIndex < 0) currentIndex = 0;
+function openLightboxByIndex(index){
+  currentIndex = index;
   lightboxImg.src = albumImgs[currentIndex].src;
   lightbox.style.display = "flex";
 }
@@ -478,8 +490,13 @@ function prevImg(){
   lightboxImg.src = albumImgs[currentIndex].src;
 }
 
-// Vuốt trên điện thoại
-let startX = 0;
+/* Click ra ngoài để thoát */
+lightbox.addEventListener("click",e=>{
+  if(e.target === lightbox) closeLightbox();
+});
+
+/* Vuốt điện thoại */
+let startX=0;
 lightbox.addEventListener("touchstart",e=>{
   startX = e.touches[0].clientX;
 });
@@ -488,6 +505,7 @@ lightbox.addEventListener("touchend",e=>{
   if(diff > 50) prevImg();
   if(diff < -50) nextImg();
 });
+
 </script>
 </body>
 </html>
