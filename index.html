@@ -65,7 +65,7 @@
   transition:opacity .8s ease;
   z-index:1000;
 }
-#introText{
+.intro-text{
   margin-top:20px;
   color:#fff;
   font-size:20px;
@@ -74,6 +74,7 @@
   transform:translateY(10px);
   transition:opacity 1s ease .3s, transform 1s ease .3s;
 }
+
 .intro::after{
   content:"";
   position:absolute;
@@ -392,33 +393,47 @@ async function sendRSVP(e){
 
   const name = rsvpName.value.trim();
   const status = rsvpStatus.value;
-  if(!name || !status) return;
 
-  await fetch(API_URL,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({
-      type:"rsvp",
-      name,
-      status
-    })
-  });
+  if(!name || !status){
+    alert("Vui lòng nhập tên và chọn trạng thái");
+    return;
+  }
 
-  // reset form
-  rsvpName.value="";
-  rsvpStatus.value="";
-  rsvpCard.classList.remove("rsvp-no");
-  prayNote.style.display="none";
+  try{
+    const res = await fetch(API_URL,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        type:"rsvp",
+        name:name,
+        status:status
+      })
+    });
 
-  showPopup(
-    status==="yes"
-      ? "🎉 Cảm ơn bạn đã xác nhận tham dự!"
-      : "🙏 Cảm ơn bạn đã phản hồi & hiệp lời cầu nguyện",
-    status==="yes" ? "#3c6e9b" : "#b86b6b"
-  );
-localStorage.setItem("lastRSVP", name);
-  await loadData(); // load lại danh sách NGAY
+    const result = await res.text();
+    console.log("RSVP response:", result);
+
+    rsvpName.value="";
+    rsvpStatus.value="";
+    rsvpCard.classList.remove("rsvp-no");
+    prayNote.style.display="none";
+
+    showPopup(
+      status==="yes"
+        ? "🎉 Cảm ơn bạn đã xác nhận tham dự!"
+        : "🙏 Cảm ơn bạn đã phản hồi & hiệp lời cầu nguyện",
+      status==="yes" ? "#3c6e9b" : "#b86b6b"
+    );
+
+    localStorage.setItem("lastRSVP", name);
+    loadData();
+
+  }catch(err){
+    console.error(err);
+    alert("❌ Lỗi kết nối Google Sheet");
+  }
 }
+
 // ------------------- OPEN SCREEN + INTRO -------------------
 
 const story=[
