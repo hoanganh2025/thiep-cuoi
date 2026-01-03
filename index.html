@@ -29,7 +29,7 @@
   opacity:0;
   pointer-events:none;
   transition:opacity .8s ease;
-  z-index:900;
+  z-index:1000;
 }
 
 .intro.show img{
@@ -47,7 +47,10 @@
   transform:translateY(10px);
   transition:opacity 1s ease .3s, transform 1s ease .3s;
 }
-
+.intro.show{
+  opacity:1;
+  pointer-events:auto;
+}
 .intro.show #introText{
   opacity:1;
   transform:translateY(0);
@@ -317,10 +320,16 @@ body{
 </div>
 
 <script>
+  const openScreen = document.getElementById("openScreen");
+const intro = document.getElementById("intro");
+const introImg = document.getElementById("introImg");
+const introText = document.getElementById("introText");
+const main = document.getElementById("main");
   const musicBtn = document.getElementById("musicBtn");
   const music = document.getElementById("music");
   let musicStarted = false;
-
+const yesCountEl = document.getElementById("yesCount");
+const noCountEl = document.getElementById("noCount");
 function toggleMusic(){
   if(!musicStarted){
     music.play();
@@ -378,10 +387,6 @@ async function sendRSVP(e){
   rsvpStatus.value="";
 
   showPopup("✅ Cảm ơn bạn đã phản hồi!");
-  async function loadData(){
-  const res = await fetch(API_URL);
-  const data = await res.json();
-
   /* ===== RSVP ===== */
   rsvpListEl.innerHTML="";
   let yes=0,no=0;
@@ -421,7 +426,19 @@ async function sendRSVP(e){
   });
 }
 
-  loadData(); // 👉 reload danh sách ngay
+  data.rsvp.slice().reverse().forEach(r=>{
+  const div=document.createElement("div");
+  div.style.display="flex";
+  div.style.justifyContent="space-between";
+  div.style.borderBottom="1px dashed #ddd";
+  div.style.padding="6px 0";
+  div.innerHTML = `
+    <span><b>${r[1]}</b></span>
+    <span>${r[2]==="yes"?"✅ Tham dự":"❌ Không tham dự"}</span>
+  `;
+  rsvpListEl.appendChild(div);
+  r[2]==="yes"?yes++:no++;
+});
 }
 
 
