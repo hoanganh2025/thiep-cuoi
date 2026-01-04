@@ -497,10 +497,12 @@ body{
 
 
 <!-- MUSIC -->
-<audio id="music" loop preload="auto">
+  <button id="openBtn">💌 Mở Thiệp</button>
+<button id="musicBtn" onclick="toggleMusic()">🔇</button>
+
+<audio id="bgMusic" loop>
   <source src="i-do.mp3.mp3" type="audio/mpeg">
 </audio>
-
 <!-- MAIN CONTENT -->
 <div class="container" id="main">
 <div class="cross">💕</div>
@@ -703,8 +705,15 @@ const intro = document.getElementById("intro");
 const introImg = document.getElementById("introImg");
 const introText = document.getElementById("introText");
 const main = document.getElementById("main");
-  const musicBtn = document.getElementById("musicBtn");
-  const music = document.getElementById("music");
+const music = document.getElementById("bgMusic");
+const openBtn = document.getElementById("openBtn");
+
+openBtn.addEventListener("click", () => {
+  music.play().catch(()=>{});
+  
+  // Ẩn màn hình mở (nếu có)
+  document.getElementById("openScreen")?.classList.add("hide");
+});
   let musicStarted = false;
 function toggleMusic(){
   if(!musicStarted){
