@@ -377,10 +377,28 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%) scale(1);
-  width:440px;          /* 🌕 to hơn */
-  height:440px;
+
+  /* 🌕 KÍCH THƯỚC TỰ CO GIÃN */
+  width:clamp(220px, 65vw, 380px);
+  height:clamp(220px, 65vw, 380px);
+
   border-radius:50%;
   cursor:pointer;
+
+  background:
+    radial-gradient(circle at 30% 25%, #ffffff 0%, #f2f2f2 35%, #d6d6d6 60%, #bfbfbf 100%),
+    radial-gradient(circle at 70% 65%, rgba(0,0,0,.12), transparent 55%),
+    radial-gradient(circle at 40% 70%, rgba(0,0,0,.18), transparent 50%);
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,.4),
+    0 0 60px rgba(255,255,255,.25);
+
+  transition:
+    box-shadow .4s ease,
+    transform .9s ease;
+}
+
 
   /* 🌕 bề mặt trăng thật hơn */
   background:
@@ -424,9 +442,10 @@ body{
     transform:translate(-50%,-50%) scale(1);
   }
   to{
-    transform:translate(-50%,-50%) scale(8);
+    transform:translate(-50%,-50%) scale(6);
   }
 }
+
 .moon.glow{
   box-shadow:
     0 0 60px rgba(255,255,255,1),
