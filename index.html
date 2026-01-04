@@ -282,6 +282,126 @@ body{
   font-size:13px;
   color:#8a5a5a;
 }
+/* ===== NIGHT SKY ===== */
+.sky{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:-1;
+}
+
+/* ===== MOON ===== */
+.moon{
+  position:absolute;
+  top:18%;
+  left:65%; /* lệch sang phải */
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #fff, #e6e6e6 60%, #cfcfcf 100%);
+  box-shadow:
+    0 0 40px rgba(255,255,255,.6),
+    0 0 120px rgba(255,255,255,.35);
+  transition:transform .6s ease;
+}
+
+/* zoom nhẹ khi chạm trăng */
+.moon.zoom{
+  transform:scale(1.15);
+}
+
+/* ===== WHITE DOTS (đốm trắng) ===== */
+.dot{
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:.8;
+  box-shadow:0 0 12px rgba(255,255,255,.8);
+  animation:floatDot linear infinite;
+}
+
+@keyframes floatDot{
+  from{transform:translateY(0)}
+  to{transform:translateY(-120vh)}
+}
+
+/* ===== FOG ===== */
+.fog-layer{
+  position:absolute;
+  bottom:-30%;
+  left:-10%;
+  width:120%;
+  height:80%;
+  background:
+    radial-gradient(circle at center,
+      rgba(255,255,255,.35),
+      rgba(255,255,255,.05),
+      transparent 70%);
+  filter:blur(40px);
+  animation:fogMove 18s linear infinite;
+}
+
+@keyframes fogMove{
+  from{transform:translateY(0)}
+  to{transform:translateY(-40%)}
+}
+
+/* ===== OPEN TRANSITION ===== */
+#openScreen.fade-out .dot,
+#openScreen.fade-out .fog-layer{
+  animation:fadeOut 1.2s ease forwards;
+}
+
+#openScreen.fade-out .moon{
+  animation:moonZoom 1.2s ease forwards;
+}
+
+@keyframes fadeOut{
+  to{opacity:0}
+}
+
+@keyframes moonZoom{
+  to{transform:scale(1.6)}
+}
+/* ===== FORCE NIGHT BACKGROUND ===== */
+#openScreen{
+  background:linear-gradient(to bottom,#020924,#040f2f,#000) !important;
+  overflow:hidden;
+}
+/* ===== STAR DOTS ===== */
+.star-layer{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+
+.star-dot{
+  position:absolute;
+  border-radius:50%;
+  background:white;
+  opacity:.8;
+  box-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 14px rgba(200,220,255,.7);
+  animation:twinkle ease-in-out infinite;
+}
+
+/* sao to hơn */
+.star-dot.big{
+  box-shadow:
+    0 0 10px rgba(255,255,255,1),
+    0 0 28px rgba(180,220,255,.9);
+}
+
+@keyframes twinkle{
+  0%   {opacity:.2; transform:scale(.9)}
+  50%  {opacity:1;  transform:scale(1.6)}
+  100% {opacity:.3; transform:scale(1)}
+}
 
 </style>
 </head>
@@ -300,11 +420,21 @@ body{
 <div id="rsvpPopup">Cảm ơn bạn!</div>
 
 <!-- OPEN SCREEN --><!-- INTRO STORY -->
+
+
 <div class="intro" id="intro">
  <img id="introImg" class="intro-img">
 <div id="introText" class="intro-text"></div>
 </div>
 <div id="openScreen" onclick="openInvite()">
+  <div class="star-layer" id="starLayer"></div>
+  <!-- NIGHT SKY -->
+<div class="sky">
+  <div class="moon"></div>
+  <div class="cloud-layer"></div>
+  <div class="fog-layer"></div>
+</div>
+
   <div style="font-size:42px">💕</div>
 <h1 class="couple-name">THIỆP MỜI</h1>
 <h1 class="couple-name">Hoàng Anh</h1>
@@ -455,6 +585,64 @@ body{
 </div>
 
 <script>
+  document.addEventListener("DOMContentLoaded",()=>{
+  const layer=document.getElementById("starLayer");
+  if(!layer) return;
+
+  const COUNT=60+Math.floor(Math.random()*30); // 60–90
+
+  for(let i=0;i<COUNT;i++){
+    const s=document.createElement("span");
+    s.className="star-dot";
+
+    if(Math.random()<0.35) s.classList.add("big");
+
+    const size=Math.random()<0.35
+      ? 4+Math.random()*3
+      : 2+Math.random()*1.5;
+
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+
+    s.style.top=Math.random()*100+"%";
+    s.style.left=Math.random()*100+"%";
+
+    s.style.animationDuration=2+Math.random()*4+"s";
+    s.style.animationDelay=Math.random()*3+"s";
+
+    layer.appendChild(s);
+  }
+});
+
+  /* ===== DOTS CREATE ===== */
+const sky = document.querySelector(".sky");
+for(let i=0;i<40;i++){
+  const d=document.createElement("div");
+  d.className="dot";
+  d.style.left=Math.random()*100+"vw";
+  d.style.top=100+Math.random()*100+"vh";
+  d.style.animationDuration=12+Math.random()*8+"s";
+  d.style.opacity=Math.random();
+  sky.appendChild(d);
+}
+
+/* ===== MOON INTERACTION ===== */
+const moon=document.querySelector(".moon");
+moon.addEventListener("click",e=>{
+  e.stopPropagation();
+  moon.classList.add("zoom");
+  setTimeout(()=>moon.classList.remove("zoom"),600);
+});
+
+/* ===== OPEN INVITE EFFECT ===== */
+const originalOpenInvite = openInvite;
+openInvite = function(){
+  openScreen.classList.add("fade-out");
+  setTimeout(()=>{
+    originalOpenInvite();
+  },1200);
+};
+
   const API_URL="https://script.google.com/macros/s/AKfycbxEhUewtom1-wR7EBfAOscvBaESQkSvtHCyODdLFE1lcatmPHuaXu0VUTOVfMwM23g9/exec";
   const openScreen = document.getElementById("openScreen");
 const intro = document.getElementById("intro");
