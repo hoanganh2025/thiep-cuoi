@@ -699,6 +699,15 @@ openScreen.addEventListener("click", e=>{
   if(opened) return;
   opened = true;
 
+  // ✅ PHÁT NHẠC NGAY TRONG USER GESTURE (BẮT BUỘC CHO iOS)
+  music.volume = 0.7;
+  music.currentTime = 0;
+  music.play().then(()=>{
+    musicStarted = true;
+    musicBtn.innerText = "🔊";
+  }).catch(()=>{});
+
+  // HIỆU ỨNG TRĂNG
   moon.classList.add("glow");
 
   setTimeout(()=>{
@@ -810,14 +819,6 @@ story.forEach(s=>{
   const img = new Image();
   img.src = s.img;
 });
-function openInvite(){
-  // PHÁT NHẠC NGAY SAU CLICK
-  music.volume = 0.7;
-  music.currentTime = 0;
-  music.play().then(()=>{
-    musicStarted = true;
-    musicBtn.innerText = "🔊";
-  }).catch(()=>{});
 
   // HIỆU ỨNG MỞ THIỆP
   openScreen.style.opacity = "0";
