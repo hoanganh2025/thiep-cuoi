@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+<head>
 <meta charset="UTF-8">
-  <h2>THIỆP MỜI </h2>
+<title>Thiệp Mời</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
   .couple-name{
   color: #b86b6b;
   font-size:36px;
@@ -462,6 +462,11 @@ body{
     height:clamp(180px, 70vw, 240px);
   }
 }
+.cloud-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
 
 </style>
 </head>
@@ -706,11 +711,15 @@ openScreen.addEventListener("click", e=>{
   // HIỆU ỨNG TRĂNG
   moon.classList.add("glow");
 
+ setTimeout(()=>{
+  openScreen.style.opacity = "0";
   setTimeout(()=>{
-    moon.classList.add("zoom-full");
-    setTimeout(openInvite, 900);
-  },400);
-});
+    openScreen.style.display="none";
+    intro.classList.add("show");
+    playStory(0);
+  },600);
+},900);
+
 
 
   const API_URL="https://script.google.com/macros/s/AKfycbxEhUewtom1-wR7EBfAOscvBaESQkSvtHCyODdLFE1lcatmPHuaXu0VUTOVfMwM23g9/exec";
