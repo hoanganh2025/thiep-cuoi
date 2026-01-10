@@ -823,21 +823,28 @@ story.forEach(s=>{
   img.src = s.img;
 });
 function openInvite(){
-  // PHÁT NHẠC NGAY SAU CLICK
+  // 🔊 bật nhạc hợp lệ cho mobile
+  music.muted = false;
   music.volume = 0.7;
-  music.currentTime = 0;
-  music.play().then(()=>{
-    musicStarted = true;
-    musicBtn.innerText = "🔊";
-  }).catch(()=>{});
 
-  // HIỆU ỨNG MỞ THIỆP
+  const playPromise = music.play();
+  if(playPromise !== undefined){
+    playPromise.then(()=>{
+      musicStarted = true;
+      musicBtn.innerText = "🔊";
+    }).catch(()=>{
+      // nếu vẫn bị chặn, hiện thông báo
+      showPopup("🔊 Chạm lần nữa để bật nhạc");
+    });
+  }
+
+  // hiệu ứng mở thiệp
   openScreen.style.opacity = "0";
-setTimeout(()=>{
-  openScreen.style.display = "none";
-  intro.classList.add("show");
-  playStory(0);
-},600);
+  setTimeout(()=>{
+    openScreen.style.display = "none";
+    intro.classList.add("show");
+    playStory(0);
+  },600);
 }
 function playStory(i){
   if(i >= story.length){
@@ -1034,6 +1041,15 @@ async function loadData(){
 }
 
 setTimeout(loadData, 800);
+document.addEventListener("touchstart",()=>{
+  if(!musicStarted){
+    music.muted = false;
+    music.play().then(()=>{
+      musicStarted = true;
+      musicBtn.innerText="🔊";
+    }).catch(()=>{});
+  }
+},{once:true});
 </script>
 </body>
 </html>
