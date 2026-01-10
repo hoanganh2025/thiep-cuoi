@@ -965,14 +965,26 @@ lightbox.addEventListener("click",e=>{
 });
 
 /* Vuốt điện thoại */
-let startX=0;
-lightbox.addEventListener("touchstart",e=>{
+let startX = 0;
+let isPinching = false;
+
+lightbox.addEventListener("touchstart", e=>{
+  // nếu có từ 2 ngón trở lên → đang zoom → bỏ qua swipe
+  if(e.touches.length > 1){
+    isPinching = true;
+    return;
+  }
+  isPinching = false;
   startX = e.touches[0].clientX;
 });
-lightbox.addEventListener("touchend",e=>{
+
+lightbox.addEventListener("touchend", e=>{
+  // nếu vừa zoom thì KHÔNG đổi ảnh
+  if(isPinching) return;
+
   const diff = e.changedTouches[0].clientX - startX;
-  if(diff > 50) prevImg();
-  if(diff < -50) nextImg();
+  if(diff > 60) prevImg();
+  if(diff < -60) nextImg();
 });
 
 async function loadData(){
