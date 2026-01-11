@@ -207,27 +207,26 @@ body{
   object-fit: cover;
 
   /* 🔥 Làm ảnh nét hơn */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+ image-rendering: -webkit-optimize-contrast;
   backface-visibility: hidden;
   transform: translateZ(0);
 
   /* chống mờ khi scale */
   will-change: transform;
 }
-@media (min-width: 768px){
+@media (min-width: 1024px){
   .album-grid img{
     filter: contrast(1.05) saturate(1.05);
   }
 }
+
+}
 .album-grid img{
-  transition: transform .25s ease, filter .25s ease;
+  transition: transform .35s ease;
 }
 
-@media (hover:hover){
-  .album-grid img:hover{
-    transform:scale(1.06);
-  }
+.album-grid img:hover{
+  transform: scale(1.03) translateZ(0);
 }
 
 /* ===== LIGHTBOX ===== */
