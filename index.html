@@ -25,10 +25,6 @@ h2{
   color:#7a2f2f; /* đỏ rượu vang */
 }
 
-body{
-  background:#fff8f5;
-}
-
 .btn{
   background:#7a2f2f;
 }
@@ -44,9 +40,6 @@ body{
   display:none;
 }
 
-  .btn.blue{
-  background:#3c6e9b;
-}
   #rsvpPopup{
   position:fixed;
   top:20px;
@@ -66,11 +59,6 @@ body{
   border:1px solid #e2a0a0;
 }
   /* ===== INTRO CINEMATIC ===== */
-.intro-img.show{
-  opacity:1;
-  transform:scale(1) translateY(0);
-  filter:blur(0);
-}
 .intro img{
   width:85%;
   max-width:420px;
@@ -109,7 +97,6 @@ body{
   z-index:0;
   pointer-events:none;
 }
-.intro img,
 .intro-text{
   margin-top:20px;
   color:#5a2a2a;
@@ -581,15 +568,16 @@ body{
   </div>
 
   <!-- CÔ DÂU & CHÚ RỂ -->
+  <div style="display:flex;justify-content:space-around;text-align:center">
+  <div>
     <img src="chu-re.jpg" class="avatar">
-
-      <p><b>Chú rể<br>Phêrô Hoàng Anh</b></p>
-    </div>
-    <div>
-     <img src="cd.JPEG" class="avatar">
-      <p><b>Cô dâu<br>Maria Phạm Nguyệt</b></p>
-    </div>
+    <p><b>Chú rể<br>Phêrô Hoàng Anh</b></p>
   </div>
+  <div>
+    <img src="cd.JPEG" class="avatar">
+    <p><b>Cô dâu<br>Maria Phạm Nguyệt</b></p>
+  </div>
+</div>
 
   <!-- SONG THÂN -->
   <div style="display:flex;gap:20px;justify-content:space-between;font-size:15px;margin:30px 0;">
