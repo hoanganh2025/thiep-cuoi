@@ -509,6 +509,12 @@ body{
     will-change:auto;
   }
 }
+.avatar{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;   /* cắt ảnh cho đều, không méo */
+}
 </style>
 </head>
 <body>
@@ -575,13 +581,12 @@ body{
   </div>
 
   <!-- CÔ DÂU & CHÚ RỂ -->
-  <div style="display:flex; justify-content:center; gap:20px; margin-top:25px;">
-    <div>
-      <img src="chu-re.jpg" style="width:120px; border-radius:50%;">
+    <img src="chu-re.jpg" class="avatar">
+
       <p><b>Chú rể<br>Phêrô Hoàng Anh</b></p>
     </div>
     <div>
-      <img src="cd.JPEG" style="width:120px; border-radius:50%;">
+     <img src="cd.JPEG" class="avatar">
       <p><b>Cô dâu<br>Maria Phạm Nguyệt</b></p>
     </div>
   </div>
