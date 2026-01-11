@@ -479,7 +479,36 @@ body{
     height:clamp(180px, 70vw, 240px);
   }
 }
+/* ===== TỐI ƯU CHO MOBILE ===== */
+@media (max-width: 768px){
 
+  /* Tắt blur + glow nặng */
+  .fog-layer,
+  .moon.glow,
+  .moon::after{
+    display:none !important;
+  }
+
+  /* Giảm shadow */
+  .moon{
+    box-shadow:0 0 20px rgba(255,255,255,.3);
+  }
+
+  /* Tắt animation rơi hoa */
+  .flower{
+    display:none !important;
+  }
+
+  /* Giảm số sao */
+  .star-dot.big{
+    display:none;
+  }
+
+  /* Tắt will-change (rất nóng máy) */
+  .album-grid img{
+    will-change:auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -571,12 +600,12 @@ body{
   <!-- ALBUM -->
   <h2>📷 Khoảnh Khắc Hạnh Phúc</h2>
 <div class="album-grid">
-  <img src="5.jpg" loading="lazy" onclick="openLightboxByIndex(0)">
-<img src="6.png" onclick="openLightboxByIndex(1)">
-<img src="7.jpg" onclick="openLightboxByIndex(2)">
-<img src="8.PNG" onclick="openLightboxByIndex(3)">
-<img src="9.jpg" onclick="openLightboxByIndex(4)">
-<img src="10.PNG" onclick="openLightboxByIndex(5)">
+ <img src="5.jpg" loading="lazy" onclick="openLightboxByIndex(0)">
+<img src="6.png" loading="lazy" onclick="openLightboxByIndex(1)">
+<img src="7.jpg" loading="lazy" onclick="openLightboxByIndex(2)">
+<img src="8.PNG" loading="lazy" onclick="openLightboxByIndex(3)">
+<img src="9.jpg" loading="lazy" onclick="openLightboxByIndex(4)">
+<img src="10.PNG" loading="lazy" onclick="openLightboxByIndex(5)">
 </div>
 
 <!-- LỄ -->
