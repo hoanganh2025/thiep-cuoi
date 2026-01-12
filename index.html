@@ -504,12 +504,28 @@ body{
     will-change:auto;
   }
 }
-.avatar{
+.avatar-wrap{
   width:180px;
-  height:220px;
+  height:220px;          /* giữ đúng 220 x 180 */
   border-radius:50%;
-  object-fit:cover;   /* cắt ảnh cho đều, không méo */
+  overflow:hidden;
+
+  /* KHÔNG scale, KHÔNG GPU hack */
+  transform:none;
 }
+
+.avatar-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+
+  /* ÉP render nét */
+  transform:none !important;
+  backface-visibility:visible;
+  image-rendering:auto;
+}
+
 </style>
 </head>
 <body>
@@ -579,11 +595,15 @@ body{
   <!-- CÔ DÂU & CHÚ RỂ -->
   <div style="display:flex;justify-content:space-around;text-align:center">
   <div>
-    <img src="chu-re.jpg" class="avatar">
+   <div class="avatar-wrap">
+  <img src="chu-re.jpg" class="avatar-img">
+</div>
     <p><b>Chú rể<br>Phêrô Hoàng Anh</b></p>
   </div>
   <div>
-    <img src="cd.JPEG" class="avatar">
+  <div class="avatar-wrap">
+  <img src="cd.JPEG" class="avatar-img">
+</div>
     <p><b>Cô dâu<br>Maria Phạm Nguyệt</b></p>
   </div>
 </div>
