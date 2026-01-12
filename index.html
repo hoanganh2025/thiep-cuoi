@@ -6,6 +6,7 @@
 <link rel="preload" as="image" href="2.JPEG">
 <link rel="preload" as="image" href="3.jpg">
 <link rel="preload" as="image" href="4.jpg">
+  <h2>THIỆP MỜI </h2>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   .couple-name{
@@ -207,7 +208,7 @@ body{
   backface-visibility:hidden;
   transform:translateZ(0);
   will-change:transform;
-
+ image-rendering:auto;  
   transition:transform .35s ease;
 }
 
@@ -222,9 +223,8 @@ body{
     filter:contrast(1.05) saturate(1.05);
   }
 }
-.album-grid img{
-  image-rendering:auto;
-}
+
+
 
 /* ===== LIGHTBOX ===== */
 #lightbox{
@@ -504,27 +504,21 @@ body{
     will-change:auto;
   }
 }
-.avatar-wrap{
+.avatar{
   width:180px;
   height:220px;
   border-radius:16px;
   object-fit:cover;
 
-  /* KHÔNG scale, KHÔNG GPU hack */
+  /* ❌ bỏ GPU hack */
   transform:none;
-}
-
-.avatar-img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-
-  /* ÉP render nét */
-  transform:none !important;
   backface-visibility:visible;
+  will-change:auto;
+
+  /* tăng nét */
   image-rendering:auto;
 }
+
 
 </style>
 </head>
@@ -595,15 +589,11 @@ body{
   <!-- CÔ DÂU & CHÚ RỂ -->
   <div style="display:flex;justify-content:space-around;text-align:center">
   <div>
-   <div class="avatar-wrap">
-  <img src="chu-re.jpg" class="avatar-img">
-</div>
+    <img src="chu-re.jpg" class="avatar">
     <p><b>Chú rể<br>Phêrô Hoàng Anh</b></p>
   </div>
   <div>
-  <div class="avatar-wrap">
-  <img src="cd.JPEG" class="avatar-img">
-</div>
+    <img src="cd.JPEG" class="avatar">
     <p><b>Cô dâu<br>Maria Phạm Nguyệt</b></p>
   </div>
 </div>
@@ -654,7 +644,7 @@ body{
 <a class="btn" target="_blank" href="https://maps.app.goo.gl/imNfpARbGWWLFwrKA?g_st=ipc">🧭 Chỉ đường</a><br>
 <a class="btn blue" target="_blank" href="https://www.google.com/calendar">📅 Thêm vào Google Calendar</a>
 </div>
-
+  
 <h2>🍽️ Tiệc Nhà Trai</h2>
 <div class="card">
 🗓 <b>Thứ Sáu – 13/02/2026</b><br>
@@ -663,7 +653,6 @@ body{
 <a class="btn" target="_blank" href="https://maps.app.goo.gl/2XV3Rx7Tr8DZPFSn7?g_st=ipc">🧭 Chỉ đường</a><br>
 <a class="btn blue" target="_blank" href="https://www.google.com/calendar">📅 Thêm vào Google Calendar</a>
 </div>
-
 <!-- RSVP -->
 <h2>📩 Xác Nhận Tham Dự</h2>
 <div class="card" id="rsvpCard">
@@ -927,7 +916,7 @@ function playStory(i){
 
 // ------------------- COUNTDOWN (UTC+7) -------------------
 const countdown=document.getElementById("countdown");
-const weddingTime = new Date("2026-02-11T16:15:00+07:00").getTime();
+const weddingTime = new Date("2026-02-11T15:30:00+07:00").getTime();
 setInterval(()=>{
   const d=weddingTime-Date.now();
   if(d<=0){countdown.innerHTML="🎉 Lễ cưới đã bắt đầu"; return;}
@@ -1120,4 +1109,3 @@ document.addEventListener("touchstart",()=>{
 </script>
 </body>
 </html>
-
