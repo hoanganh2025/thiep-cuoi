@@ -1,0 +1,35 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Wedding Invitation//VN
+
+BEGIN:VEVENT
+UID:lecuoi-11022026@example.com
+DTSTAMP:20260101T000000Z
+DTSTART:20260211T161500
+DTEND:20260211T181500
+SUMMARY:Lễ cưới Hoàng Anh & Phạm Thị Nguyệt
+LOCATION:Nhà thờ Phúc Thành
+DESCRIPTION:Trân trọng kính mời bạn đến tham dự Lễ cưới của chúng tôi 💍
+END:VEVENT
+
+BEGIN:VEVENT
+UID:tiecnhagai-12022026@example.com
+DTSTAMP:20260101T000000Z
+DTSTART:20260212T110000
+DTEND:20260212T130000
+SUMMARY:Tiệc cưới – Nhà gái
+LOCATION:Tư gia nhà gái
+DESCRIPTION:Trân trọng kính mời bạn đến tham dự tiệc cưới tại nhà gái 💐
+END:VEVENT
+
+BEGIN:VEVENT
+UID:tiecnhatrai-13022026@example.com
+DTSTAMP:20260101T000000Z
+DTSTART:20260213T110000
+DTEND:20260213T130000
+SUMMARY:Tiệc cưới – Nhà trai
+LOCATION:Tư gia nhà trai
+DESCRIPTION:Trân trọng kính mời bạn đến tham dự tiệc cưới tại nhà trai 🎉
+END:VEVENT
+
+END:VCALENDAR
